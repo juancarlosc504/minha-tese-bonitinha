@@ -92,13 +92,13 @@ Na conversa, peça: "Quais regras de tabela você vai seguir para esta tese?". A
 
 ## 7. Enviar alterações ao GitHub (git push)
 
-Depois de alterar a skill ou o modelo, grave e envie as mudanças:
+Para enviar alterações ao seu próprio repositório (um *fork* do original ou uma cópia sua), grave e envie as mudanças. O repositório original pertence a juancarlosc504; para propor melhorias a ele, abra um *pull request* a partir do seu fork, e, para guardar a sua versão, troque o endereço do `git clone` pelo do seu fork:
 
 ```bash
-cd ~/Documents/Claude/Projects/PhD/minha-tese-bonitinha
+cd /caminho/da/pasta/minha-tese-bonitinha   # a pasta onde você clonou o repositório
 git add -A
 git commit -m "Descreva a alteração"
 git push origin main
 ```
 
-Se o Git pedir login, use o usuário `juancarlosc504` e, no lugar da senha, um token de acesso pessoal do GitHub (em *Settings, Developer settings, Personal access tokens*). Outra opção é rodar `gh auth login` uma vez, se o `gh` estiver instalado; depois disso o `git push` funciona sem pedir credenciais. Se a skill estiver instalada pelo clone em `~/.claude/skills/minha-tese-bonitinha`, as alterações feitas lá também são enviadas com os mesmos comandos, a partir dessa pasta.
+Se o Git pedir login, use o seu usuário do GitHub e, no lugar da senha, um token de acesso pessoal do GitHub (em *Settings, Developer settings, Personal access tokens*). Outra opção é rodar `gh auth login` uma vez, se o `gh` estiver instalado; depois disso o `git push` funciona sem pedir credenciais. Se a skill estiver instalada pelo clone em `~/.claude/skills/minha-tese-bonitinha`, as alterações feitas lá também são enviadas com os mesmos comandos, a partir dessa pasta.
