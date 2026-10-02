@@ -64,6 +64,8 @@ No TeXstudio, abrir `tese_modelo.tex` e usar F5, com o compilador padrão `txs:/
 
 ## Como usar como skill do Claude
 
+Passo a passo completo, para o Claude e para o Claude Code, em [INSTALL.md](INSTALL.md).
+
 O arquivo `SKILL.md` na raiz é a skill. Para instalá-la, importar o arquivo na área de skills do Claude. Depois disso, o Claude aplica o padrão ao escrever ou editar `.tex` e, quando solicitado, cria a pasta `Tese LaTeX - Modelo` na pasta conectada, com o mesmo conteúdo de `modelo/`.
 
 ## Uso em conjunto com a skill de figuras científicas
@@ -84,6 +86,7 @@ No claude.ai, baixar o arquivo `scientific-figures.skill` na página de Releases
 ```
 minha-tese-bonitinha/
 ├── README.md
+├── INSTALL.md                   guia de instalação (Claude e Claude Code)
 ├── SKILL.md                     skill do Claude (regras de formatação e modelo embutido)
 ├── LICENSE                      MIT (material do autor)
 ├── NOTICE.md                    camadas de licença (MIT e LPPL do abnTeX2)

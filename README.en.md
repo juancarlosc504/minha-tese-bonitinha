@@ -66,6 +66,8 @@ Note: the template is a Brazilian (ABNT) document, so the typeset text it produc
 
 ## How to use as a Claude skill
 
+Full step-by-step guide, for Claude and for Claude Code, in [INSTALL.en.md](INSTALL.en.md).
+
 The `SKILL.md` file at the root is the skill (Portuguese); `SKILL.en.md` is its English translation. To install it, import the file in the Claude skills area. Afterwards, Claude applies the standard when writing or editing `.tex` and, when asked, creates the `Tese LaTeX - Modelo` folder in the connected folder, with the same contents as `modelo/`.
 
 ## Use together with the scientific figures skill
@@ -87,6 +89,7 @@ On claude.ai, download the `scientific-figures.skill` file from the repository's
 minha-tese-bonitinha/
 ├── README.md                    Portuguese
 ├── README.en.md                 English
+├── INSTALL.md / INSTALL.en.md   installation guide (Claude and Claude Code)
 ├── SKILL.md                     Claude skill (formatting rules and embedded template), Portuguese
 ├── SKILL.en.md                  Claude skill, English translation
 ├── LICENSE                      MIT (author's material)
