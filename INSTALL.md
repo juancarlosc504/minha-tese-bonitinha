@@ -89,3 +89,16 @@ A `scientific-figures` gera a figura em matplotlib com um script reproduzível; 
 ## 6. Conferir se funcionou
 
 Na conversa, peça: "Quais regras de tabela você vai seguir para esta tese?". A resposta deve citar réguas `booktabs`, colunas `M{...}` centralizadas e `\legend{Fonte: ...}`. Se não citar, a skill não foi carregada: confira o nome da pasta, a presença do `SKILL.md` dentro dela e reinicie a sessão.
+
+## 7. Enviar alterações ao GitHub (git push)
+
+Depois de alterar a skill ou o modelo, grave e envie as mudanças:
+
+```bash
+cd ~/Documents/Claude/Projects/PhD/minha-tese-bonitinha
+git add -A
+git commit -m "Descreva a alteração"
+git push origin main
+```
+
+Se o Git pedir login, use o usuário `juancarlosc504` e, no lugar da senha, um token de acesso pessoal do GitHub (em *Settings, Developer settings, Personal access tokens*). Outra opção é rodar `gh auth login` uma vez, se o `gh` estiver instalado; depois disso o `git push` funciona sem pedir credenciais. Se a skill estiver instalada pelo clone em `~/.claude/skills/minha-tese-bonitinha`, as alterações feitas lá também são enviadas com os mesmos comandos, a partir dessa pasta.

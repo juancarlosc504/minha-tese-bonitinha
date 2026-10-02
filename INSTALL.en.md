@@ -89,3 +89,16 @@ claude plugin install scientific-figures@scientific-figures
 ## 6. Check that it worked
 
 In the conversation, ask: "Which table rules will you follow for this thesis?" The answer should mention `booktabs` rules, centered `M{...}` columns and `\legend{Fonte: ...}`. If it does not, the skill was not loaded: check the folder name, that `SKILL.md` is inside it, and restart the session.
+
+## 7. Pushing changes to GitHub (git push)
+
+After changing the skill or the template, commit and push:
+
+```bash
+cd ~/Documents/Claude/Projects/PhD/minha-tese-bonitinha
+git add -A
+git commit -m "Describe the change"
+git push origin main
+```
+
+If Git asks for a login, use the username `juancarlosc504` and, in place of the password, a GitHub personal access token (under *Settings, Developer settings, Personal access tokens*). Another option is to run `gh auth login` once, if `gh` is installed; after that `git push` works without asking for credentials. If the skill was installed by cloning into `~/.claude/skills/minha-tese-bonitinha`, changes made there are pushed with the same commands, run from that folder.
