@@ -1,11 +1,11 @@
 ---
 name: "minha-tese-bonitinha"
-description: "Padrão de formatação LaTeX para teses e dissertações, baseado no modelo canônico do abnTeX2, com pasta modelo sem dados preenchidos. Usar ao escrever ou editar .tex nesse padrão ou ao pedir a pasta modelo. Autor: Juan Carlos Lamônica."
+description: "Padrão de formatação LaTeX para teses e dissertações, baseado no modelo canônico do abnTeX2, com pasta modelo sem dados preenchidos. Usar ao escrever ou editar .tex nesse padrão ou ao pedir a pasta modelo. Autoria de Juan Carlos Lamonica, MSc."
 ---
 
 # Minha tese bonitinha
 
-Autor: Juan Carlos Lamônica.
+Autoria de Juan Carlos Lamonica, MSc.
 
 Esta skill é feita com base no modelo canônico do abnTeX2 (<https://www.abntex.net.br>): parte da classe `abntex2` e das normas ABNT que ele implementa e acrescenta as convenções de formatação descritas abaixo. Reúne convenções de formatação LaTeX para teses e dissertações, mais um modelo canônico de pasta LaTeX, sem dados preenchidos, pronto para ser preenchido. Aplicar em todo texto novo ou editado em projetos LaTeX nesse padrão. A skill trata apenas de forma; conteúdo, metodologia e escolhas científicas são decisão do autor do trabalho.
 
