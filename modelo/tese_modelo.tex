@@ -44,6 +44,7 @@
 
 % ---------------------------------------------------------------
 % DADOS DE IDENTIFICAÇÃO (capa e folha de rosto) --- PREENCHER
+% A instituição é digitada em caixa alta (a capa não a converte).
 % ---------------------------------------------------------------
 \titulo{[TÍTULO DO TRABALHO]}
 \autor{[NOME COMPLETO DO AUTOR]}
@@ -115,8 +116,10 @@
 	% --- Pré-textuais ---
 	\include{pretextual/capa}
 	\include{pretextual/folha_de_rosto}
-	\include{pretextual/resumo}
-	\include{pretextual/abstract}
+	% \include{pretextual/dedicatoria}   % opcional
+	\include{pretextual/agradecimentos}
+	\include{pretextual/epigrafe}
+	\include{pretextual/resumo}   % resumo (português) e abstract (inglês)
 	\include{pretextual/listas_pretextuais}
 
 	% --- Textuais ---

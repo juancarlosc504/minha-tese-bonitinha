@@ -53,7 +53,7 @@ kpsewhich memoir.cls
 
 ## Como usar a pasta modelo
 
-Copiar a pasta `modelo/` para o local de trabalho e renomeá-la. Preencher os campos entre colchetes em `tese_modelo.tex` (título, autor, orientadores, instituição, programa, local, ano, palavras-chave), em `pretextual/resumo.tex` e `pretextual/abstract.tex`. Em seguida, compilar sempre o documento mestre:
+Copiar a pasta `modelo/` para o local de trabalho e renomeá-la. Preencher os campos entre colchetes em `tese_modelo.tex` (título, autor, orientadores, instituição, programa, local, ano, palavras-chave), e em `pretextual/resumo.tex` (resumo e abstract no mesmo arquivo). Em seguida, compilar sempre o documento mestre:
 
 ```bash
 cd modelo
@@ -94,7 +94,7 @@ minha-tese-bonitinha/
     ├── tese_modelo.tex          documento mestre
     ├── referencias.bib          bibliografia única
     ├── config/comandos.tex      marcadores de revisão (\novo, \verde, \magenta, \preencher, \citar, \aref)
-    ├── pretextual/              capa, folha de rosto, resumo, abstract, listas
+    ├── pretextual/              capa, folha de rosto, dedicatória, agradecimentos, epígrafe, resumo e abstract, listas
     ├── capitulos/               capitulo_modelo.tex
     ├── apendices/               apendice_modelo.tex
     ├── figuras/  graficos/

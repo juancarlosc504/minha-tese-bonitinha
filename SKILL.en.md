@@ -22,13 +22,17 @@ Tese LaTeX - Modelo/
 ├── tese_modelo.tex          ← master document (always compile this one)
 ├── referencias.bib          ← single bibliography
 ├── config/comandos.tex      ← review markers and custom commands
-├── pretextual/              ← capa, folha_de_rosto, resumo, abstract, listas_pretextuais
+├── pretextual/              ← capa, folha_de_rosto, dedicatoria, agradecimentos, epigrafe, resumo (pt and en), listas_pretextuais
 ├── capitulos/capitulo_modelo.tex
 ├── apendices/apendice_modelo.tex
 └── figuras/  graficos/      ← empty (with .gitkeep)
 ```
 
 Class and style files (`abntex2.cls`, `abntex2cite.sty`, `*.bst`, `brazil.ldf`, etc.) are not recreated: if the computer's TeX installation does not have them, copy them from an existing abnTeX2 project. After creating, compile once with `latexmk -pdf tese_modelo.tex` and report only the summary (pages and errors); the template must build with no errors and no undefined references.
+
+## Converting a .docx into a LaTeX project
+
+When the author asks to typeset a thesis written in Word, generate a project in this skill's standard, with master document `tese.tex`, one file per chapter in `capitulos/` and the front matter in `pretextual/`. If the connected folder holds a LaTeX thesis by the author, it is the base for the preamble, cover, title page and other front matter. What worked: extract the `.docx` with `pandoc` to JSON (AST) and the media with `--extract-media`; walk the AST with a custom Python script (not `python-docx`), writing each block already in these conventions; and apply a final regular-expression pass for leftovers. Watch for unsupported Unicode (the prime `U+2032` becomes `$'$`), `%` inside Python format strings (write `%%`), Word author-year citations (mapped to `\cite` or `\citeonline` against keys of the `.bib` built from the reference list; check `et al.`, `\&`, `Jr.` and year mismatches), page locators such as "p. 12" (must not become decimals), numbers and units (`$n$~unit`), figures (saved as `figNN_description`, TIFF converted to JPG) and manual numbering (replaced by `\label` and `\autoref`). Ambiguous items are never resolved silently: log them in a short report to the author. The original `.docx` is never altered.
 
 ## Before editing
 
@@ -37,6 +41,10 @@ The author may edit the files externally (for example, in TeXstudio) between ses
 ## Document and preamble
 
 The master document (`tese_modelo.tex` in the template; always compile it) uses the `abntex2` class with 12pt, `oneside`, `openright`, `a4paper`, `chapter=TITLE` (chapter titles in capitals) and `sumario=abnt-6027-2012`. Main language `brazil`, with `\frenchspacing`. Latin Modern font (`lmodern`, `T1`, `utf8`) and `microtype` for justification. Text is always justified; paragraph indent `\setlength{\parindent}{1.3cm}` and `\setlength{\parskip}{0.2cm}`. Section and subsection titles in `\normalsize`, bold, `lmr` font. Figures and tables numbered by chapter (`\counterwithin`). Citations with `abntex2cite` (`alf`, `bibjustif`, `abnt-etal-text=it`). Do not change the preamble without an explicit request; new commands go in `config/comandos.tex`.
+
+When the connected folder already holds a LaTeX thesis by the author (for example `tese_<name>.tex` with its `config/` and `pretextual/`), its preamble and structure are the base of any new or converted project: reuse the preamble, `config/comandos.tex` and the front matter (cover, title page, abstracts and lists), changing only the identification data, `\graphicspath`, the chapter list and the packages the new work does not use (for example `lipsum`, `svg`, `tabu`, `perpage`, `comment` blocks and topic-specific includes). The reference thesis is read, never altered. Without a reference thesis, the template of this skill applies.
+
+The cover and title page are custom (no `\imprimircapa`): centred blocks at 12 pt, institution typed in capitals, author in capitals, title in bold capitals, place and year at the bottom. No logo unless the author asks. Abstract (Portuguese) and Abstract (English) live in the same `pretextual/resumo.tex`, with `\absparsep` at 18 pt and keywords separated by semicolons with a final period. Figures taller than wide (height/width above about 1.15) use `height=0.68\textheight,keepaspectratio`; surnames with a suffix (Jr., Filho, Neto) go entirely in braces in the `.bib`; and when the work calls for "Lista de figuras", add `\addto\captionsbrazil{\renewcommand{\listfigurename}{Lista de figuras}}` to `config/comandos.tex`.
 
 ## Files and structure
 

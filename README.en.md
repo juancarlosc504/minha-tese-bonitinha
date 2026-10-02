@@ -53,7 +53,7 @@ kpsewhich memoir.cls
 
 ## How to use the template folder
 
-Copy the `modelo/` folder to your working location and rename it. Fill in the bracketed fields in `tese_modelo.tex` (title, author, advisors, institution, program, place, year, keywords), in `pretextual/resumo.tex` and `pretextual/abstract.tex`. Then always compile the master document:
+Copy the `modelo/` folder to your working location and rename it. Fill in the bracketed fields in `tese_modelo.tex` (title, author, advisors, institution, program, place, year, keywords), and in `pretextual/resumo.tex` (Portuguese abstract and English abstract in the same file). Then always compile the master document:
 
 ```bash
 cd modelo
@@ -98,7 +98,7 @@ minha-tese-bonitinha/
     ├── tese_modelo.tex          master document
     ├── referencias.bib          single bibliography
     ├── config/comandos.tex      review markers (\novo, \verde, \magenta, \preencher, \citar, \aref)
-    ├── pretextual/              cover, title page, abstract (pt/en), lists
+    ├── pretextual/              cover, title page, dedication, acknowledgements, epigraph, abstract (pt/en), lists
     ├── capitulos/               capitulo_modelo.tex
     ├── apendices/               apendice_modelo.tex
     ├── figuras/  graficos/

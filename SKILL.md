@@ -20,13 +20,17 @@ Tese LaTeX - Modelo/
 ├── tese_modelo.tex          ← documento mestre (compilar sempre este)
 ├── referencias.bib          ← bibliografia única
 ├── config/comandos.tex      ← marcadores de revisão e comandos próprios
-├── pretextual/              ← capa, folha_de_rosto, resumo, abstract, listas_pretextuais
+├── pretextual/              ← capa, folha_de_rosto, dedicatoria, agradecimentos, epigrafe, resumo (português e inglês), listas_pretextuais
 ├── capitulos/capitulo_modelo.tex
 ├── apendices/apendice_modelo.tex
 └── figuras/  graficos/      ← vazias (com .gitkeep)
 ```
 
 Os arquivos de classe e estilo (`abntex2.cls`, `abntex2cite.sty`, `*.bst`, `brazil.ldf` etc.) não são recriados: se o TeX do computador não os tiver, copiá-los de um projeto abnTeX2 existente. Depois de criar, compilar uma vez com `latexmk -pdf tese_modelo.tex` e informar só o resumo (páginas e erros); o modelo deve sair sem erros e sem referências indefinidas.
+
+## Converter um .docx em projeto LaTeX
+
+Quando o autor pedir para formatar em LaTeX uma tese escrita em Word, gerar um projeto no mesmo padrão desta skill, com documento mestre `tese.tex` (a linha mágica de cada arquivo aponta para ele), um arquivo por capítulo em `capitulos/` (`01_introducao.tex` etc.) e os pré-textuais em `pretextual/`. Se houver na pasta conectada uma tese do próprio autor em LaTeX, ela é a base do preâmbulo, da capa, da folha de rosto e dos demais pré-textuais (ver "Documento e preâmbulo"). O caminho que funcionou: extrair o `.docx` com `pandoc` para JSON (AST) e a mídia com `--extract-media`; percorrer a AST com um script Python próprio (e não com `python-docx`), escrevendo cada bloco já nas convenções abaixo; e aplicar uma camada final de expressões regulares para os resíduos. Pontos que exigem atenção: caracteres Unicode sem suporte (o apóstrofo `U+2032` vira `$'$`); `%` dentro de strings de formatação do Python deve ser escrito `%%`; citações autor-ano do Word viram `\cite` ou `\citeonline` casando com as chaves do `.bib` gerado a partir da lista de referências (conferir `et al.` em itálico, `\&`, `Jr.` e divergências de ano); localizadores como "p. 12" não podem virar decimais; números e unidades passam ao formato `$n$~unidade`; cada figura é gravada em `figuras/` com nome `figNN_descricao` (TIFF convertido para JPG; PNG só quando necessário); e a numeração manual de figuras, tabelas e equações do Word é trocada por `\label` e `\autoref`. Os dados de identificação vêm da capa do documento original, e a lista de siglas, da tabela correspondente. Itens ambíguos (referência sem correspondência, figura sem legenda, citação não casada) não são resolvidos em silêncio: registrar num relatório curto e reportar ao autor. O original `.docx` nunca é alterado; trabalhar numa cópia.
 
 ## Antes de editar
 
@@ -35,6 +39,10 @@ O autor pode editar os arquivos por fora (por exemplo, no TeXstudio) entre sess�
 ## Documento e preâmbulo
 
 O documento mestre (`tese_modelo.tex` no modelo; compilar sempre ele) usa a classe `abntex2` com 12pt, `oneside`, `openright`, `a4paper`, `chapter=TITLE` (capítulos em caixa alta) e `sumario=abnt-6027-2012`. Idioma principal `brazil`, com `\frenchspacing`. Fonte Latin Modern (`lmodern`, `T1`, `utf8`) e `microtype` para justificação. O texto é sempre justificado; recuo de parágrafo `\setlength{\parindent}{1.3cm}` e `\setlength{\parskip}{0.2cm}`. Títulos de seção e subseção em `\normalsize`, negrito, fonte `lmr`. Figuras e tabelas numeradas por capítulo (`\counterwithin`). Citações com `abntex2cite` (`alf`, `bibjustif`, `abnt-etal-text=it`). Não alterar o preâmbulo sem pedido explícito; novos comandos vão em `config/comandos.tex`.
+
+Quando já existir na pasta conectada uma tese do próprio autor em LaTeX (por exemplo, `tese_<nome>.tex` com seus `config/` e `pretextual/`), o preâmbulo e a estrutura dela são a base de qualquer projeto novo ou convertido: reaproveitar o preâmbulo, o `config/comandos.tex` e os pré-textuais (capa, folha de rosto, resumo e listas) dessa tese, trocando apenas os dados de identificação, o `\graphicspath`, a lista de capítulos e os pacotes que o novo trabalho não usa (por exemplo `lipsum`, `svg`, `tabu`, `perpage`, blocos `comment` e inclusões específicas do tema). A tese de referência é lida, nunca alterada. Quando não houver tese de referência, vale o modelo desta skill.
+
+Tamanhos e caixa resultantes, conferidos no PDF de referência do autor: corpo em 12 pt; título de capítulo em 14,4 pt, negrito e caixa alta; seções e subseções em 12 pt, negrito e caixa de título (só a inicial maiúscula, como digitado); legendas em 12 pt; texto das tabelas em `\small` (10,9 pt) com cabeçalho em negrito; capa inteira em 12 pt (ver "pretextual/capa.tex"). Se um trabalho convertido sair com outros tamanhos, o desvio está na capa ou num comando local, não no preâmbulo. O nome da lista de figuras sai "Lista de ilustrações" por padrão do abnTeX2; quando o trabalho pedir "Lista de figuras", acrescentar em `config/comandos.tex` a linha `\addto\captionsbrazil{\renewcommand{\listfigurename}{Lista de figuras}}`. O `\graphicspath` pode listar subpastas de `figuras/` quando o trabalho as usar.
 
 ## Arquivos e estrutura
 
@@ -46,7 +54,7 @@ Sempre `\autoref{...}` (nunca "Figura 3" digitado à mão), inclusive para equa�
 
 ## Citações e bibliografia
 
-`\cite{chave}` para citação entre parênteses e `\citeonline{chave}` quando o autor é parte da frase ("conforme \citeonline{autor2024}"). Bibliografia única em `referencias.bib`, carregada por `\bibliography{referencias}`; novas referências entram sempre nesse arquivo, nunca em outro `.bib`. `abntex2-options.bib` é do template e não se mexe. No campo `title` usar sempre chaves duplas (`title = {{Título do Artigo}}`), para manter a caixa alta e baixa como digitada; os modelos de todos os tipos de entrada estão na seção "Arquivos do modelo", em `referencias.bib`.
+`\cite{chave}` para citação entre parênteses e `\citeonline{chave}` quando o autor é parte da frase ("conforme \citeonline{autor2024}"). Bibliografia única em `referencias.bib`, carregada por `\bibliography{referencias}`; novas referências entram sempre nesse arquivo, nunca em outro `.bib`. `abntex2-options.bib` é do template e não se mexe. No campo `title` usar sempre chaves duplas (`title = {{Título do Artigo}}`), para manter a caixa alta e baixa como digitada; os modelos de todos os tipos de entrada estão na seção "Arquivos do modelo", em `referencias.bib`. Sobrenome com sufixo (Jr., Filho, Neto) entra todo entre chaves, como `{Sobrenome Jr.}, Nome`, para o estilo não tratar o sufixo como sobrenome e a citação sair correta.
 
 ## Números, unidades e símbolos
 
@@ -78,7 +86,7 @@ Ambiente `table[h!]` centralizado, `\setlength{\tabcolsep}{8pt}`, `\renewcommand
 
 ## Figuras
 
-Ambiente `figure[h!]` com `\centering`, `\includegraphics[width=0.95\linewidth]{figuras/arquivo.pdf}` (o `\graphicspath` cobre `figuras/` e `graficos/`), `\caption[título curto para a lista]{legenda completa}`, `\label{fig:...}` e, ao final, `\legend{Fonte: elaborado pelo autor.}` (ou `\citeonline{chave}` quando adaptada). Preferir PDF vetorial; PNG só para imagens rasterizadas. Subfiguras: `subfigure[b]{0.49\linewidth}` com `\centering`, `\hfill` entre as duas colunas e `\\[1.5ex]` entre linhas, cada uma com sua `\caption{}` curta, e a legenda geral ao final.
+Ambiente `figure[h!]` com `\centering`, `\includegraphics[width=0.95\linewidth]{figuras/arquivo.pdf}` (o `\graphicspath` cobre `figuras/` e `graficos/`), `\caption[título curto para a lista]{legenda completa}`, `\label{fig:...}` e, ao final, `\legend{Fonte: elaborado pelo autor.}` (ou `\citeonline{chave}` quando adaptada). Preferir PDF vetorial; PNG só para imagens rasterizadas. Figuras mais altas que largas (proporção altura/largura acima de cerca de 1,15) levam `\includegraphics[height=0.68\textheight,keepaspectratio]{...}` em vez de `width`, para não estourar a página e deixar espaço à legenda. Quando a legenda contém `\autoref` ou outro comando frágil, usar o título curto opcional em `\caption[...]{...}`, pois a lista de figuras não aceita o `\autoref`; nos demais casos o título curto é dispensável. Subfiguras: `subfigure[b]{0.49\linewidth}` com `\centering`, `\hfill` entre as duas colunas e `\\[1.5ex]` entre linhas, cada uma com sua `\caption{}` curta, e a legenda geral ao final.
 
 Para figuras científicas em matplotlib, esta skill pode ser usada em conjunto com a skill `scientific-figures` (<https://github.com/juancarlosc504/scientific-figures>), que gera cada figura com um script `gera_*.py` reprodutível e um verificador (`checa_figura.py`). Esta skill cuida do LaTeX (ambiente, legenda, rótulo, fonte); a `scientific-figures` cuida da figura em si. Em caso de conflito sobre o conteúdo gráfico, vale a `scientific-figures`. As figuras geradas em Python (matplotlib) seguem este padrão, e o `.py` gerador é sempre salvo em `figuras/` (ex.: `gera_figura.py`):
 
@@ -106,11 +114,11 @@ Ficam em `pretextual/listas_pretextuais.tex` (`\begin{siglas}` e `\begin{simbolo
 
 ## Compilação
 
-`latexmk -pdf <documento mestre>.tex`. Erro `Undefined control sequence` com `\tempf@rtoc` indica `.toc` ou `.aux` corrompido, não erro de texto. Em pasta conectada que bloqueia exclusão, truncar apenas `.toc` e `.out` (`: > arquivo.toc`), nunca o `.aux`; se o bibtex acusar "no \citation commands", rodar `pdflatex`, `bibtex`, `pdflatex`, `pdflatex`.
+`latexmk -pdf <documento mestre>.tex`. Erro `Undefined control sequence` com `\tempf@rtoc` indica `.toc` ou `.aux` corrompido, não erro de texto. Em pasta conectada que bloqueia exclusão, truncar apenas `.toc` e `.out` (`: > arquivo.toc`), nunca o `.aux`; se o bibtex acusar "no \citation commands", rodar `pdflatex`, `bibtex`, `pdflatex`, `pdflatex`. Em ambiente sem `abntex2.cls`, `lmodern` ou o pacote de português do babel (como o contêiner da nuvem), instalar os dois últimos pelo gerenciador de pacotes e clonar o repositório `github.com/abntex/abntex2` para o texmf local; compilar numa cópia fora da pasta do autor e só então gravar o PDF nela.
 
 ## Conferência final
 
-Texto justificado e sem estouro de margem; unidades no formato `$n$~unidade` com vírgula decimal; todas as referências cruzadas via `\autoref`/`\aref`; tabelas sem `\hline`; figuras com `\legend{Fonte: ...}`; citações em `referencias.bib` e com `\cite` ou `\citeonline` adequados; texto novo em `\novo{}`; compilação sem erros e sem referências ou citações indefinidas.
+Texto justificado e sem estouro de margem; unidades no formato `$n$~unidade` com vírgula decimal; todas as referências cruzadas via `\autoref`/`\aref`; tabelas sem `\hline`; figuras com `\legend{Fonte: ...}` e figuras altas com limite de altura; citações em `referencias.bib` e com `\cite` ou `\citeonline` adequados; títulos do `.bib` com chaves duplas; capa em 12 pt com caixa alta; palavras-chave separadas por ponto e vírgula; texto novo em `\novo{}`; compilação sem erros e sem referências ou citações indefinidas.
 
 ## Arquivos do modelo
 
@@ -165,6 +173,7 @@ Todos os campos entre colchetes são para o autor preencher; nada abaixo traz da
 
 % ---------------------------------------------------------------
 % DADOS DE IDENTIFICAÇÃO (capa e folha de rosto) --- PREENCHER
+% A instituição é digitada em caixa alta (a capa não a converte).
 % ---------------------------------------------------------------
 \titulo{[TÍTULO DO TRABALHO]}
 \autor{[NOME COMPLETO DO AUTOR]}
@@ -236,8 +245,10 @@ Todos os campos entre colchetes são para o autor preencher; nada abaixo traz da
 	% --- Pré-textuais ---
 	\include{pretextual/capa}
 	\include{pretextual/folha_de_rosto}
-	\include{pretextual/resumo}
-	\include{pretextual/abstract}
+	% \include{pretextual/dedicatoria}   % opcional
+	\include{pretextual/agradecimentos}
+	\include{pretextual/epigrafe}
+	\include{pretextual/resumo}   % resumo (português) e abstract (inglês)
 	\include{pretextual/listas_pretextuais}
 
 	% --- Textuais ---
@@ -272,6 +283,8 @@ Todos os campos entre colchetes são para o autor preencher; nada abaixo traz da
 \newcommand{\verde}[1]{\textcolor{ForestGreen}{#1}}
 % \magenta{}: citações sugeridas, a avaliar.
 \newcommand{\magenta}[1]{\textcolor{magenta}{#1}}
+% Opcional: "Lista de figuras" em vez de "Lista de ilustrações".
+% \addto\captionsbrazil{\renewcommand{\listfigurename}{Lista de figuras}}
 ```
 
 ### capitulos/capitulo_modelo.tex
@@ -353,40 +366,134 @@ exemplo de listagem
 
 ### pretextual/capa.tex e folha_de_rosto.tex
 
+A capa é própria (não usa `\imprimircapa` nem o ambiente `capa`): blocos centralizados em 12 pt, com espaços verticais fixos. Instituição (digitada em caixa alta em `\instituicao`, uma unidade por linha), autor em caixa alta, título em negrito e caixa alta, e local e ano na base, com o local em caixa alta. Sem logotipo, salvo pedido do autor. A folha de rosto segue o mesmo estilo: autor em caixa alta, título em negrito e caixa alta, preâmbulo alinhado à direita numa caixa de $7$~cm, orientador e coorientador centralizados, local e ano na base. Ficha catalográfica e folha de aprovação entram como PDF fornecido pela biblioteca e pela banca, quando existirem.
+
 ```latex
 % !TeX root = ../tese_modelo.tex
 % capa.tex
-\imprimircapa
+\begin{center}
+	\singlespacing
+	\imprimirinstituicao
+\end{center}
+
+\vspace{3.0cm}
+
+\begin{center}
+	\MakeTextUppercase{\imprimirautor}
+
+	\vspace{4.5cm}
+
+	\textbf{\MakeTextUppercase{\imprimirtitulo}}
+\end{center}
+
+\vfill
+\begin{center}
+	\singlespacing
+	\MakeTextUppercase{\imprimirlocal} \\ \imprimirdata
+\end{center}
 ```
 
 ```latex
 % !TeX root = ../tese_modelo.tex
 % folha_de_rosto.tex
-\imprimirfolhaderosto*
+\begin{center}
+	\MakeTextUppercase{\imprimirautor}
+
+	\vspace{4.0cm}
+
+	\textbf{\MakeTextUppercase{\imprimirtitulo}}
+\end{center}
+
+\vspace{4.0cm}
+
+\begin{minipage}[l]{15cm}
+	\hfill \parbox[c]{7cm}{
+		\singlespacing
+		\imprimirpreambulo}
+\end{minipage}
+
+\vspace{2.5cm}
+
+\begin{center}
+	\imprimirorientadorRotulo \\ \imprimirorientador
+
+	\vspace{0.8cm}
+	\imprimircoorientadorRotulo \\ \imprimircoorientador
+\end{center}
+
+\vfill
+\begin{center}
+	\singlespacing
+	\imprimirlocal \\ \imprimirdata
+\end{center}
 \newpage
 ```
 
-### pretextual/resumo.tex e abstract.tex
+### pretextual/dedicatoria.tex, agradecimentos.tex e epigrafe.tex
+
+A dedicatória é opcional (linha comentada no documento mestre) e fica na parte inferior direita da página.
 
 ```latex
 % !TeX root = ../tese_modelo.tex
-% resumo.tex
-\begin{resumo}
-	[Texto do resumo em um único parágrafo, justificado.]
-
-	\textbf{Palavras-chave}: [Palavra 1]. [Palavra 2]. [Palavra 3].
-\end{resumo}
+% dedicatoria.tex
+\begin{dedicatoria}
+	\vspace*{\fill}
+	\begin{flushright}
+		[Texto da dedicatória.]
+	\end{flushright}
+\end{dedicatoria}
 ```
 
 ```latex
 % !TeX root = ../tese_modelo.tex
-% abstract.tex
-\begin{resumo}[Abstract]
-	\begin{otherlanguage*}{english}
-		[Abstract text in a single paragraph.]
+% agradecimentos.tex
+\begin{agradecimentos}
+	\preencher{texto dos agradecimentos}
+\end{agradecimentos}
+```
 
-		\textbf{Keywords}: [Word 1]. [Word 2]. [Word 3].
-	\end{otherlanguage*}
+```latex
+% !TeX root = ../tese_modelo.tex
+% epigrafe.tex
+\begin{epigrafe}
+	\vspace*{\fill}
+	\begin{flushright}
+		\textit{``[Texto da epígrafe.]''}
+
+		[Autor da epígrafe]
+	\end{flushright}
+\end{epigrafe}
+```
+
+### pretextual/resumo.tex
+
+Resumo e abstract ficam no mesmo arquivo, nesta ordem, com espaçamento de $18$~pt entre parágrafos (`\absparsep`). Palavras-chave separadas por ponto e vírgula, cada uma com inicial maiúscula, e ponto final. Em `pdfkeywords` do `\hypersetup` as palavras vão separadas por vírgula.
+
+```latex
+% !TeX root = ../tese_modelo.tex
+% Resumo (português) e Abstract (inglês)
+
+\setlength{\absparsep}{18pt}
+\begin{resumo}
+
+\noindent [Texto do resumo em um único parágrafo, justificado.]
+
+\vspace{\onelineskip}
+
+\noindent
+\textbf{Palavras-chave}: [Palavra 1]; [Palavra 2]; [Palavra 3].
+\end{resumo}
+
+\begin{resumo}[Abstract]
+\begin{otherlanguage*}{english}
+
+	\noindent [Abstract text in a single paragraph.]
+
+	\vspace{\onelineskip}
+
+	\noindent
+	\textbf{Keywords}: [Word 1]; [Word 2]; [Word 3].
+\end{otherlanguage*}
 \end{resumo}
 ```
 
@@ -421,7 +528,7 @@ exemplo de listagem
 
 ### referencias.bib
 
-Cada tipo de entrada abaixo tem um modelo no arquivo. Regras que valem para todos: **o título leva chaves duplas** (`title = {{Título do Artigo}}`), para o estilo manter a caixa alta e baixa exatamente como digitada; sem elas, siglas, nomes próprios e fórmulas (TG-43, EBT3, Monte Carlo) são convertidos para minúsculas. Para proteger só um termo, usar chaves simples em volta dele (`{EBT3}`). Autor pessoa em `Sobrenome, Nome and Sobrenome, Nome`; autor institucional entre chaves duplas e em caixa alta (`author = {{ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS}}`). Páginas com `--`. Documentos online com `url` e `urlaccessdate`. Única exceção: em `@proceedings` o título leva chaves simples, porque as duplas desbalanceiam o campo e geram erro. Em `@phdthesis` e `@mastersthesis`, `type` traz só a área (`Doutorado em Área`), pois o estilo já escreve "Tese" ou "Dissertação". Tipos cobertos: `article`, `book`, `inbook`, `incollection`, `inproceedings`, `proceedings`, `phdthesis`, `mastersthesis`, `techreport`, `manual`, `misc` (norma técnica e página de internet), `patent` e `unpublished`.
+Cada tipo de entrada abaixo tem um modelo no arquivo. Regras que valem para todos: **o título leva chaves duplas** (`title = {{Título do Artigo}}`), para o estilo manter a caixa alta e baixa exatamente como digitada; sem elas, siglas, nomes próprios e fórmulas (TG-43, EBT3, Monte Carlo) são convertidos para minúsculas. Para proteger só um termo, usar chaves simples em volta dele (`{EBT3}`). Autor pessoa em `Sobrenome, Nome and Sobrenome, Nome`; sobrenome com sufixo (Jr., Filho, Neto) entre chaves (`{Sobrenome Jr.}, Nome`); autor institucional entre chaves duplas e em caixa alta (`author = {{ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS}}`). Páginas com `--`. Documentos online com `url` e `urlaccessdate`. Única exceção: em `@proceedings` o título leva chaves simples, porque as duplas desbalanceiam o campo e geram erro. Em `@phdthesis` e `@mastersthesis`, `type` traz só a área (`Doutorado em Área`), pois o estilo já escreve "Tese" ou "Dissertação". Tipos cobertos: `article`, `book`, `inbook`, `incollection`, `inproceedings`, `proceedings`, `phdthesis`, `mastersthesis`, `techreport`, `manual`, `misc` (norma técnica e página de internet), `patent` e `unpublished`.
 
 ```bibtex
 % ===================================================================
@@ -438,6 +545,7 @@ Cada tipo de entrada abaixo tem um modelo no arquivo. Regras que valem para todo
 %     grafia. Para proteger só um termo dentro do título, usar chaves
 %     simples em volta dele: title = {Estudo com {EBT3} e {Monte Carlo}}.
 %  3. Autores: Sobrenome, Nome and Sobrenome, Nome (separados por "and").
+%     Sobrenome com sufixo: author = {{Sobrenome Jr.}, Nome}.
 %     Instituição como autor: author = {{ASSOCIAÇÃO BRASILEIRA DE NORMAS
 %     TÉCNICAS}} (chaves duplas, para não ser lida como nome de pessoa, e
 %     em caixa alta, como pede a ABNT para entidades).
