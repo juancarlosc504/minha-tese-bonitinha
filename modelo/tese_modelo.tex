@@ -1,0 +1,137 @@
+\documentclass[12pt,openright,oneside,a4paper,chapter=TITLE,english,french,spanish,brazil,sumario=abnt-6027-2012]{abntex2}
+\DisemulatePackage{setspace}
+\usepackage{setspace}
+\usepackage{textcomp}
+\usepackage{gensymb}
+\DeclareUnicodeCharacter{00B0}{\degree}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{indentfirst}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{graphicx}
+\graphicspath{{figuras/}{graficos/}}
+\usepackage{microtype}
+\usepackage{enumitem}
+\input{config/comandos}
+\usepackage[alf,bibjustif,abnt-etal-text=it,abnt-etal-list=2,abnt-etal-cite=2]{abntex2cite}
+\usepackage{multicol}
+\usepackage{verbatim}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true,breakindent=0pt,
+        columns=fullflexible,keepspaces=true,frame=single,framerule=0.3pt,
+        showstringspaces=false,xleftmargin=6pt,xrightmargin=6pt,breakautoindent=false}
+\usepackage{imakeidx}
+\usepackage{nomencl}
+\makenomenclature
+\usepackage{isotope}
+\counterwithin{figure}{chapter}
+\counterwithin{table}{chapter}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{subcaption}
+\usepackage{tocloft}
+\usepackage{pdfpages}
+
+% Colunas centralizadas de largura fixa (padrão de tabelas)
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+
+% ---------------------------------------------------------------
+% DADOS DE IDENTIFICAÇÃO (capa e folha de rosto) --- PREENCHER
+% ---------------------------------------------------------------
+\titulo{[TÍTULO DO TRABALHO]}
+\autor{[NOME COMPLETO DO AUTOR]}
+\local{[CIDADE]}
+\data{[ANO]}
+\orientador{[Titulação e nome do orientador]}
+\coorientador{[Titulação e nome do coorientador, se houver]}
+\instituicao{%
+	[UNIVERSIDADE]
+	\par
+	[UNIDADE ACADÊMICA]
+	\par
+	[DEPARTAMENTO]}
+\tipotrabalho{[Tese (Doutorado) / Dissertação (Mestrado)]}
+\preambulo{[Natureza do trabalho, programa de pós-graduação, departamento e instituição, e objetivo (por exemplo, requisito parcial para a obtenção do título de ...).]}
+
+\definecolor{blue}{RGB}{41,5,195}
+\makeatletter
+\hypersetup{
+	pdftitle={\@title}, pdfauthor={\@author}, pdfsubject={\imprimirpreambulo},
+	pdfcreator={LaTeX with abnTeX2},
+	pdfkeywords={[palavra-chave 1], [palavra-chave 2], [palavra-chave 3]},
+	colorlinks=true, linkcolor=blue, citecolor=blue, filecolor=magenta, urlcolor=blue,
+	bookmarksdepth=4
+}
+\setlength{\@fptop}{5pt}
+\makeatother
+
+% Quadros e lista de quadros
+\newcommand{\quadroname}{Quadro}
+\newcommand{\listofquadrosname}{Lista de quadros}
+\newfloat[chapter]{quadro}{loq}{\quadroname}
+\newlistof{listofquadros}{loq}{\listofquadrosname}
+\newlistentry{quadro}{loq}{0}
+\setfloatadjustment{quadro}{\centering}
+\counterwithout{quadro}{chapter}
+\renewcommand{\cftquadroname}{\quadroname\space}
+\renewcommand*{\cftquadroaftersnum}{\hfill--\hfill}
+\setfloatlocations{quadro}{hbtp}
+
+% Espaçamentos e títulos
+\setlength{\parindent}{1.3cm}
+\setlength{\parskip}{0.2cm}
+\renewcommand{\ABNTEXchapterfont}{\fontfamily{lmr}\fontseries{b}\selectfont}
+\renewcommand{\ABNTEXsectionfont}{\fontfamily{lmr}\fontseries{b}\selectfont}
+\renewcommand{\chaptitlefont}{\normalfont\large\bfseries}
+\renewcommand{\cftsectionfont}{\bfseries}
+\renewcommand{\cftsubsectionfont}{\normalfont}
+\renewcommand{\cftsubsubsectionfont}{\normalfont}
+\renewcommand{\cftparagraphfont}{\normalfont}
+\renewcommand{\ABNTEXsectionfontsize}{\normalsize}
+\renewcommand{\ABNTEXsubsectionfontsize}{\normalsize}
+\renewcommand{\cftpartfont}{\cftchapterfont}
+\renewcommand{\cftpartpagefont}{\cftchapterpagefont}
+\renewcommand{\printparttitle}[1]{\parttitlefont\MakeTextUppercase{#1}}
+
+\makeindex
+
+\begin{document}
+	\setlength{\abovedisplayskip}{5pt}
+	\setlength{\abovedisplayshortskip}{0pt}
+	\setlength{\belowdisplayskip}{12pt}
+	\setlength{\belowdisplayshortskip}{12pt}
+	\setlength{\afterchapskip}{18pt}
+
+	\selectlanguage{brazil}
+	\frenchspacing
+
+	% --- Pré-textuais ---
+	\include{pretextual/capa}
+	\include{pretextual/folha_de_rosto}
+	\include{pretextual/resumo}
+	\include{pretextual/abstract}
+	\include{pretextual/listas_pretextuais}
+
+	% --- Textuais ---
+	\textual
+	\part{[Título da parte]}\label{part:um}
+	\include{capitulos/capitulo_modelo}
+
+	% --- Pós-textuais ---
+	\postextual
+	\bibliography{referencias}
+
+	\begin{apendicesenv}
+	\partapendices
+	\include{apendices/apendice_modelo}
+	\end{apendicesenv}
+
+	\printindex
+\end{document}

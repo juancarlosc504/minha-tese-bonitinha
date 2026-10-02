@@ -1,0 +1,2 @@
+\ProvidesLanguage{brazil}[2024/01/01 v1.0 Brazilian Portuguese]
+\input{portuges.ldf}%

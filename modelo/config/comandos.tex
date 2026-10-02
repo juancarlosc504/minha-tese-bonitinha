@@ -1,0 +1,11 @@
+% !TeX root = ../tese_modelo.tex
+\newcommand{\citar}{\textcolor{red}{[CITAR]}}
+\newcommand{\preencher}[1]{\textcolor{red}{\textbf{[A PREENCHER:} \textit{#1}\textbf{]}}}
+% \novo{}: texto recém-inserido (revisão). Aprovar = trocar \textcolor{red}{#1} por #1.
+\newcommand{\novo}[1]{\textcolor{red}{#1}}
+% \aref{ap:...} -> "Apêndice N" com hyperlink (corrige o \autoref em apêndices).
+\newcommand{\aref}[1]{{\def\chapterautorefname{Apêndice}\autoref{#1}}}
+% \verde{}: incorporações da revisão crítica. Aprovar = trocar por #1.
+\newcommand{\verde}[1]{\textcolor{ForestGreen}{#1}}
+% \magenta{}: citações sugeridas, a avaliar.
+\newcommand{\magenta}[1]{\textcolor{magenta}{#1}}

@@ -1,0 +1,28 @@
+# Auxiliares do LaTeX
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.idx
+*.ilg
+*.ind
+*.lof
+*.log
+*.lot
+*.nlo
+*.nls
+*.out
+*.toc
+*.loq
+*.synctex*
+*.synctex(busy)
+*.run.xml
+*.bcf
+*.xdv
+
+# PDF gerado pela compilação do modelo (nao versionar)
+modelo/tese_modelo.pdf
+
+# Sistema
+.DS_Store
