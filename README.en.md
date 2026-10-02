@@ -1,6 +1,8 @@
-# My pretty thesis (English version)
+# My pretty thesis
 
-Authorship: Juan Carlos Lamonica, MSc.
+[Português](README.md) | **English**
+
+Authorship: Juan Carlos Lamonica, MSc. This repository is bilingual (Portuguese and English).
 
 English translation of `README.md` (the Portuguese original is the reference version). A Claude skill and a LaTeX template folder with a formatting standard for theses and dissertations. **The skill is based on the canonical abnTeX2 model** (<https://www.abntex.net.br>): it starts from the `abntex2` class and the ABNT standards it implements, and adds its own formatting conventions (tables, figures, equations, citations, units, review markers). The repository contains the `SKILL.md` file (Portuguese) and `SKILL.en.md` (English), which teach Claude to write and edit documents in this standard and to create the template folder, and the `modelo/` folder, a canonical document with no filled-in data that can be used directly in TeXstudio or another editor, with or without Claude.
 

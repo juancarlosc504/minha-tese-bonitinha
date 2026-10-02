@@ -1,6 +1,8 @@
 # Minha tese bonitinha
 
-Autoria de Juan Carlos Lamonica, MSc. Versão em inglês: [README.en.md](README.en.md) e [SKILL.en.md](SKILL.en.md).
+**Português** | [English](README.en.md)
+
+Autoria de Juan Carlos Lamonica, MSc. Versão em inglês: [README.en.md](README.en.md) e [SKILL.en.md](SKILL.en.md) (repositório bilíngue: português e inglês).
 
 Skill do Claude e pasta LaTeX modelo com um padrão de formatação para teses e dissertações. **A skill é feita com base no modelo canônico do abnTeX2** (<https://www.abntex.net.br>): parte da classe `abntex2` e das normas ABNT que ele implementa e acrescenta convenções próprias de formatação (tabelas, figuras, equações, citações, unidades, marcadores de revisão). O repositório reúne o arquivo `SKILL.md`, que ensina o Claude a escrever e editar documentos nesse padrão e a criar a pasta modelo, e a pasta `modelo/`, um documento canônico, sem dados preenchidos, que pode ser usado diretamente no TeXstudio ou em outro editor, com ou sem o Claude.
 
