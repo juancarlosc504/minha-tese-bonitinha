@@ -46,7 +46,7 @@ Sempre `\autoref{...}` (nunca "Figura 3" digitado à mão), inclusive para equa�
 
 ## Citações e bibliografia
 
-`\cite{chave}` para citação entre parênteses e `\citeonline{chave}` quando o autor é parte da frase ("conforme \citeonline{autor2024}"). Bibliografia única em `referencias.bib`, carregada por `\bibliography{referencias}`; novas referências entram sempre nesse arquivo, nunca em outro `.bib`. `abntex2-options.bib` é do template e não se mexe.
+`\cite{chave}` para citação entre parênteses e `\citeonline{chave}` quando o autor é parte da frase ("conforme \citeonline{autor2024}"). Bibliografia única em `referencias.bib`, carregada por `\bibliography{referencias}`; novas referências entram sempre nesse arquivo, nunca em outro `.bib`. `abntex2-options.bib` é do template e não se mexe. No campo `title` usar sempre chaves duplas (`title = {{Título do Artigo}}`), para manter a caixa alta e baixa como digitada; os modelos de todos os tipos de entrada estão na seção "Arquivos do modelo", em `referencias.bib`.
 
 ## Números, unidades e símbolos
 
@@ -421,14 +421,215 @@ exemplo de listagem
 
 ### referencias.bib
 
+Cada tipo de entrada abaixo tem um modelo no arquivo. Regras que valem para todos: **o título leva chaves duplas** (`title = {{Título do Artigo}}`), para o estilo manter a caixa alta e baixa exatamente como digitada; sem elas, siglas, nomes próprios e fórmulas (TG-43, EBT3, Monte Carlo) são convertidos para minúsculas. Para proteger só um termo, usar chaves simples em volta dele (`{EBT3}`). Autor pessoa em `Sobrenome, Nome and Sobrenome, Nome`; autor institucional entre chaves duplas e em caixa alta (`author = {{ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS}}`). Páginas com `--`. Documentos online com `url` e `urlaccessdate`. Única exceção: em `@proceedings` o título leva chaves simples, porque as duplas desbalanceiam o campo e geram erro. Em `@phdthesis` e `@mastersthesis`, `type` traz só a área (`Doutorado em Área`), pois o estilo já escreve "Tese" ou "Dissertação". Tipos cobertos: `article`, `book`, `inbook`, `incollection`, `inproceedings`, `proceedings`, `phdthesis`, `mastersthesis`, `techreport`, `manual`, `misc` (norma técnica e página de internet), `patent` e `unpublished`.
+
 ```bibtex
+% ===================================================================
+% referencias.bib --- modelos de entrada para o abntex2cite (estilo abntex2-alf)
+%
+% REGRAS GERAIS
+%  1. Chave de citação: sobrenome do primeiro autor + ano + palavra
+%     (minúsculas, sem acento, sem espaço), por exemplo silva2024exemplo.
+%  2. TÍTULO COM CHAVES DUPLAS: title = {{Título do trabalho}}.
+%     As chaves externas delimitam o campo; as internas protegem o título
+%     e mantêm a caixa (alta ou baixa) exatamente como digitada. Sem elas,
+%     o estilo converte parte do título para minúsculas e siglas, nomes
+%     próprios e fórmulas (por exemplo TG-43, Monte Carlo, EBT3) perdem a
+%     grafia. Para proteger só um termo dentro do título, usar chaves
+%     simples em volta dele: title = {Estudo com {EBT3} e {Monte Carlo}}.
+%  3. Autores: Sobrenome, Nome and Sobrenome, Nome (separados por "and").
+%     Instituição como autor: author = {{ASSOCIAÇÃO BRASILEIRA DE NORMAS
+%     TÉCNICAS}} (chaves duplas, para não ser lida como nome de pessoa, e
+%     em caixa alta, como pede a ABNT para entidades).
+%  4. Páginas com travessão duplo: pages = {1--10}.
+%  5. Sites e documentos online: url + urlaccessdate (data de acesso).
+%  6. Toda referência nova entra neste arquivo, nunca em outro .bib.
+% ===================================================================
+
+% ------------------------------------------------------------------
+% Artigo de periódico
+% ------------------------------------------------------------------
 @article{chave2024exemplo,
-  author  = {Sobrenome, Nome},
-  title   = {Título do artigo},
-  journal = {Revista},
+  author  = {Sobrenome, Nome and Sobrenome, Nome},
+  title   = {{Título do Artigo com a Caixa Alta e Baixa Mantida}},
+  journal = {Nome da Revista},
+  address = {Cidade},
   year    = {2024},
-  volume  = {1},
+  volume  = {10},
+  number  = {2},
   pages   = {1--10},
   doi     = {10.0000/exemplo}
+}
+
+% ------------------------------------------------------------------
+% Livro (obra inteira)
+% ------------------------------------------------------------------
+@book{sobrenome2020livro,
+  author    = {Sobrenome, Nome},
+  title     = {{Título do Livro}},
+  edition   = {2},
+  address   = {Cidade},
+  publisher = {Editora},
+  year      = {2020}
+}
+
+% ------------------------------------------------------------------
+% Parte de livro com autoria própria (capítulo do mesmo autor)
+% ------------------------------------------------------------------
+@inbook{sobrenome2020capitulo,
+  author    = {Sobrenome, Nome},
+  title     = {{Título do Livro}},
+  chapter   = {3},
+  pages     = {45--80},
+  address   = {Cidade},
+  publisher = {Editora},
+  year      = {2020}
+}
+
+% ------------------------------------------------------------------
+% Capítulo em livro organizado por outros (coletânea)
+% ------------------------------------------------------------------
+@incollection{sobrenome2019coletanea,
+  author    = {Sobrenome, Nome},
+  title     = {{Título do Capítulo}},
+  booktitle = {{Título do Livro Organizado}},
+  editor    = {Sobrenome, Nome},
+  pages     = {101--120},
+  address   = {Cidade},
+  publisher = {Editora},
+  year      = {2019}
+}
+
+% ------------------------------------------------------------------
+% Trabalho publicado em anais de evento
+% ------------------------------------------------------------------
+@inproceedings{sobrenome2022anais,
+  author    = {Sobrenome, Nome and Sobrenome, Nome},
+  title     = {{Título do Trabalho Apresentado}},
+  booktitle = {{Anais do Nome do Evento}},
+  address   = {Cidade},
+  year      = {2022},
+  pages     = {1--8}
+}
+
+% ------------------------------------------------------------------
+% Anais completos (evento como um todo). EXCEÇÃO: aqui o título leva
+% chaves simples, porque o estilo abntex2-alf trunca o título deste tipo
+% e as chaves duplas deixam o campo desbalanceado (erro de compilação).
+% ------------------------------------------------------------------
+@proceedings{evento2022anaiscompletos,
+  title     = {Anais do Nome do Evento},
+  address   = {Cidade},
+  publisher = {Organizador},
+  year      = {2022}
+}
+
+% ------------------------------------------------------------------
+% Tese de doutorado
+% ------------------------------------------------------------------
+@phdthesis{sobrenome2023tese,
+  author  = {Sobrenome, Nome},
+  title   = {{Título da Tese}},
+  school  = {Universidade, Unidade, Departamento},
+  address = {Cidade},
+  year    = {2023},
+  type    = {Doutorado em Área}
+}
+
+% ------------------------------------------------------------------
+% Dissertação de mestrado
+% ------------------------------------------------------------------
+@mastersthesis{sobrenome2021dissertacao,
+  author  = {Sobrenome, Nome},
+  title   = {{Título da Dissertação}},
+  school  = {Universidade, Unidade, Departamento},
+  address = {Cidade},
+  year    = {2021},
+  type    = {Mestrado em Área}
+}
+
+% ------------------------------------------------------------------
+% Relatório técnico (inclui relatórios de organismos internacionais)
+% ------------------------------------------------------------------
+@techreport{organizacao2018relatorio,
+  author      = {{NOME DA ORGANIZAÇÃO}},
+  title       = {{Título do Relatório}},
+  institution = {Nome da Organização},
+  address     = {Cidade},
+  year        = {2018},
+  number      = {123},
+  type        = {Relatório técnico}
+}
+
+% ------------------------------------------------------------------
+% Manual, protocolo ou recomendação de organização
+% ------------------------------------------------------------------
+@manual{organizacao2017manual,
+  author       = {{NOME DA ORGANIZAÇÃO}},
+  title        = {{Título do Manual ou Protocolo}},
+  organization = {Nome da Organização},
+  address      = {Cidade},
+  year         = {2017},
+  edition      = {2},
+  note         = {Relatório n. 00}
+}
+
+% ------------------------------------------------------------------
+% Norma técnica (ABNT, IEC, ISO)
+% ------------------------------------------------------------------
+@misc{abnt2018norma,
+  author  = {{ASSOCIAÇÃO BRASILEIRA DE NORMAS TÉCNICAS}},
+  title   = {{NBR 0000: Título da Norma}},
+  address = {Rio de Janeiro},
+  year    = {2018}
+}
+
+% ------------------------------------------------------------------
+% Página de internet, documento online ou banco de dados
+% ------------------------------------------------------------------
+@misc{organizacao2025site,
+  author        = {{NOME DA ORGANIZAÇÃO}},
+  title         = {{Título da Página}},
+  year          = {2025},
+  url           = {https://www.exemplo.org/pagina},
+  urlaccessdate = {2 out. 2026}
+}
+
+% ------------------------------------------------------------------
+% Artigo de periódico em meio eletrônico (com DOI e acesso online)
+% ------------------------------------------------------------------
+@article{sobrenome2025online,
+  author        = {Sobrenome, Nome},
+  title         = {{Título do Artigo Disponível Online}},
+  journal       = {Nome da Revista},
+  address       = {Cidade},
+  year          = {2025},
+  volume        = {5},
+  number        = {1},
+  pages         = {1--12},
+  doi           = {10.0000/exemplo.online},
+  url           = {https://doi.org/10.0000/exemplo.online},
+  urlaccessdate = {2 out. 2026}
+}
+
+% ------------------------------------------------------------------
+% Patente (o inventor sai na ordem direta: Nome Sobrenome)
+% ------------------------------------------------------------------
+@patent{sobrenome2016patente,
+  author = {Nome Sobrenome},
+  title  = {{Título da Patente}},
+  year   = {2016},
+  number = {BR 00 0000000-0},
+  note   = {Depositante: Nome. Data de depósito: 1 jan. 2016}
+}
+
+% ------------------------------------------------------------------
+% Trabalho não publicado (comunicação pessoal, manuscrito em preparação)
+% ------------------------------------------------------------------
+@unpublished{sobrenome2026inedito,
+  author = {Sobrenome, Nome},
+  title  = {{Título do Trabalho}},
+  year   = {2026},
+  note   = {Manuscrito em preparação}
 }
 ```

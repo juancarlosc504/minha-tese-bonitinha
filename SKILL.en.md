@@ -48,7 +48,7 @@ Always `\autoref{...}` (never "Figure 3" typed by hand), including for equations
 
 ## Citations and bibliography
 
-`\cite{key}` for parenthetical citations and `\citeonline{key}` when the author is part of the sentence ("according to \citeonline{author2024}"). Single bibliography in `referencias.bib`, loaded by `\bibliography{referencias}`; new references always go in that file, never in another `.bib`. `abntex2-options.bib` belongs to the template and is not touched.
+`\cite{key}` for parenthetical citations and `\citeonline{key}` when the author is part of the sentence ("according to \citeonline{author2024}"). Single bibliography in `referencias.bib`, loaded by `\bibliography{referencias}`; new references always go in that file, never in another `.bib`. `abntex2-options.bib` belongs to the template and is not touched. In the `title` field always use double braces (`title = {{Article Title}}`), so the capitalization stays exactly as typed; the models for every entry type are in `referencias.bib` (section "Arquivos do modelo" of `SKILL.md` and the `modelo/` folder). Exception: in `@proceedings` the title takes single braces. For `@phdthesis` and `@mastersthesis`, `type` holds only the field (`Doutorado em Área`), since the style already prints "Tese" or "Dissertação". Corporate authors go in double braces and in capitals.
 
 ## Numbers, units and symbols
 
