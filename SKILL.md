@@ -1,17 +1,19 @@
 ---
 name: "minha-tese-bonitinha"
-description: "Padrão de formatação LaTeX da tese de doutorado de Juan (abnTeX2, UFMG) e criação da pasta LaTeX modelo canônico, sem dados preenchidos. Usar ao escrever/editar .tex da tese ou ao pedir a pasta modelo."
+description: "Padrão de formatação LaTeX para teses e dissertações, baseado no modelo canônico do abnTeX2, com pasta modelo sem dados preenchidos. Usar ao escrever ou editar .tex nesse padrão ou ao pedir a pasta modelo. Autor: Juan Carlos Lamônica."
 ---
 
 # Minha tese bonitinha
 
-Convenções de formatação LaTeX da tese "Validação Dosimétrica e Garantia da Qualidade In Vivo para Braquiterapia HDR no Tratamento Adjuvante de Queloides" (UFMG, PPG em Ciências e Técnicas Nucleares), mais um modelo canônico de pasta LaTeX, sem dados preenchidos, pronto para ser preenchido. Aplicar em todo texto novo ou editado em `Tese LaTeX/`. Esta skill trata apenas de forma; conteúdo, metodologia e escolhas científicas continuam sendo decisão do autor.
+Autor: Juan Carlos Lamônica.
+
+Esta skill é feita com base no modelo canônico do abnTeX2 (<https://www.abntex.net.br>): parte da classe `abntex2` e das normas ABNT que ele implementa e acrescenta as convenções de formatação descritas abaixo. Reúne convenções de formatação LaTeX para teses e dissertações, mais um modelo canônico de pasta LaTeX, sem dados preenchidos, pronto para ser preenchido. Aplicar em todo texto novo ou editado em projetos LaTeX nesse padrão. A skill trata apenas de forma; conteúdo, metodologia e escolhas científicas são decisão do autor do trabalho.
 
 ## Criar a pasta modelo
 
-Quando Juan pedir a pasta LaTeX modelo (ou um novo documento no mesmo padrão), criar na pasta conectada, pelo shell do computador dele, a árvore abaixo com o conteúdo da seção "Arquivos do modelo". Nome padrão `Tese LaTeX - Modelo`, ao lado de `Tese LaTeX/`, salvo se ele indicar outro. Antes de gravar, verificar se a pasta já existe; se existir, não sobrescrever nada e perguntar. Nunca alterar a `Tese LaTeX/` original ao criar o modelo.
+Quando o autor pedir a pasta LaTeX modelo (ou um novo documento no mesmo padrão), criar na pasta conectada, pelo shell do computador dele, a árvore abaixo com o conteúdo da seção "Arquivos do modelo". Nome padrão `Tese LaTeX - Modelo`, ao lado do projeto LaTeX existente, salvo se ele indicar outro. Antes de gravar, verificar se a pasta já existe; se existir, não sobrescrever nada e perguntar. Nunca alterar um projeto LaTeX existente ao criar o modelo.
 
-O modelo é canônico: todos os dados de identificação (título, autor, orientadores, instituição, departamento, programa, local, ano, palavras-chave) ficam como marcadores entre colchetes, como `[TÍTULO DO TRABALHO]`, para Juan preencher. Nunca preencher o modelo com dados da tese atual nem com termos do tema dela (braquiterapia, TG-43, queloides etc.); os exemplos de conteúdo são neutros. A formatação, por outro lado, é a da tese, completa.
+O modelo é canônico: todos os dados de identificação (título, autor, orientadores, instituição, departamento, programa, local, ano, palavras-chave) ficam como marcadores entre colchetes, como `[TÍTULO DO TRABALHO]`, para o autor preencher. Nunca preencher o modelo com dados de um trabalho existente nem com termos do tema dele; os exemplos de conteúdo são neutros. A formatação, por outro lado, é a do padrão, completa.
 
 ```
 Tese LaTeX - Modelo/
@@ -24,19 +26,19 @@ Tese LaTeX - Modelo/
 └── figuras/  graficos/      ← vazias (com .gitkeep)
 ```
 
-Os arquivos de classe e estilo (`abntex2.cls`, `abntex2cite.sty`, `*.bst`, `brazil.ldf` etc.) não são recriados: se o TeX do computador não os tiver, copiá-los de `Tese LaTeX/`. Depois de criar, compilar uma vez com `latexmk -pdf tese_modelo.tex` e informar só o resumo (páginas e erros); o modelo deve sair sem erros e sem referências indefinidas.
+Os arquivos de classe e estilo (`abntex2.cls`, `abntex2cite.sty`, `*.bst`, `brazil.ldf` etc.) não são recriados: se o TeX do computador não os tiver, copiá-los de um projeto abnTeX2 existente. Depois de criar, compilar uma vez com `latexmk -pdf tese_modelo.tex` e informar só o resumo (páginas e erros); o modelo deve sair sem erros e sem referências indefinidas.
 
 ## Antes de editar
 
-Juan edita arquivos por fora (TeXstudio) entre sessões. Antes de alterar qualquer `.tex`, `.bib` ou figura, reler a versão atual da pasta conectada e conferir o horário de modificação; só então editar, e gravar de forma a não sobrescrever alterações dele. Acumular as edições e compilar uma única vez ao final, reportando apenas o resumo do log (número de páginas e de erros). Verificação visual do PDF só quando o layout for crítico ou ele pedir.
+O autor pode editar os arquivos por fora (por exemplo, no TeXstudio) entre sessões. Antes de alterar qualquer `.tex`, `.bib` ou figura, reler a versão atual da pasta conectada e conferir o horário de modificação; só então editar, e gravar de forma a não sobrescrever alterações dele. Acumular as edições e compilar uma única vez ao final, reportando apenas o resumo do log (número de páginas e de erros). Verificação visual do PDF só quando o layout for crítico ou o autor pedir.
 
 ## Documento e preâmbulo
 
-O documento mestre é `tese_juan.tex` (compilar sempre ele), classe `abntex2` com 12pt, `oneside`, `openright`, `a4paper`, `chapter=TITLE` (capítulos em caixa alta) e `sumario=abnt-6027-2012`. Idioma principal `brazil`, com `\frenchspacing`. Fonte Latin Modern (`lmodern`, `T1`, `utf8`) e `microtype` para justificação. O texto é sempre justificado; recuo de parágrafo `\setlength{\parindent}{1.3cm}` e `\setlength{\parskip}{0.2cm}`. Títulos de seção e subseção em `\normalsize`, negrito, fonte `lmr`. Figuras e tabelas numeradas por capítulo (`\counterwithin`). Citações com `abntex2cite` (`alf`, `bibjustif`, `abnt-etal-text=it`). Não alterar o preâmbulo sem pedido explícito; novos comandos vão em `config/comandos.tex`.
+O documento mestre (`tese_modelo.tex` no modelo; compilar sempre ele) usa a classe `abntex2` com 12pt, `oneside`, `openright`, `a4paper`, `chapter=TITLE` (capítulos em caixa alta) e `sumario=abnt-6027-2012`. Idioma principal `brazil`, com `\frenchspacing`. Fonte Latin Modern (`lmodern`, `T1`, `utf8`) e `microtype` para justificação. O texto é sempre justificado; recuo de parágrafo `\setlength{\parindent}{1.3cm}` e `\setlength{\parskip}{0.2cm}`. Títulos de seção e subseção em `\normalsize`, negrito, fonte `lmr`. Figuras e tabelas numeradas por capítulo (`\counterwithin`). Citações com `abntex2cite` (`alf`, `bibjustif`, `abnt-etal-text=it`). Não alterar o preâmbulo sem pedido explícito; novos comandos vão em `config/comandos.tex`.
 
 ## Arquivos e estrutura
 
-Cada arquivo de `capitulos/`, `pretextual/` e `apendices/` começa com a linha mágica `% !TeX root = ../tese_juan.tex` (`../tese_modelo.tex` no modelo). Capítulo: `\chapter{Título}` seguido de `\label{ch:...}` na linha seguinte; seção: `\section{...}` e `\label{sec:...}` na linha seguinte. Prefixos de rótulo: `ch:`, `sec:`, `subsec:`, `fig:`, `tab:`, `eq:`, `ap:`. Rótulos em minúsculas, sem acento, descritivos (`fig:mc_iso`, `tab:fantoma_ref`, `eq:tg43_principal`). Cada capítulo abre com um parágrafo de apresentação antes da primeira seção. Texto corrido em prosa; listas só quando o conteúdo for realmente enumerável.
+Cada arquivo de `capitulos/`, `pretextual/` e `apendices/` começa com a linha mágica `% !TeX root = ../tese_modelo.tex` (ou o nome do documento mestre do projeto). Capítulo: `\chapter{Título}` seguido de `\label{ch:...}` na linha seguinte; seção: `\section{...}` e `\label{sec:...}` na linha seguinte. Prefixos de rótulo: `ch:`, `sec:`, `subsec:`, `fig:`, `tab:`, `eq:`, `ap:`. Rótulos em minúsculas, sem acento, descritivos (`fig:fluxo`, `tab:parametros`, `eq:principal`). Cada capítulo abre com um parágrafo de apresentação antes da primeira seção. Texto corrido em prosa; listas só quando o conteúdo for realmente enumerável.
 
 ## Referências cruzadas
 
@@ -44,15 +46,15 @@ Sempre `\autoref{...}` (nunca "Figura 3" digitado à mão), inclusive para equa�
 
 ## Citações e bibliografia
 
-`\cite{chave}` para citação entre parênteses e `\citeonline{chave}` quando o autor é parte da frase ("conforme \citeonline{saikkonen2023keloid}"). Bibliografia única em `referencias.bib`, carregada por `\bibliography{referencias}`; novas referências entram sempre nesse arquivo, nunca em outro `.bib`. `abntex2-options.bib` é do template e não se mexe. Antes de afirmar algo sobre uma referência, conferir `Papers/MD/_referencias_confirmadas.md`.
+`\cite{chave}` para citação entre parênteses e `\citeonline{chave}` quando o autor é parte da frase ("conforme \citeonline{autor2024}"). Bibliografia única em `referencias.bib`, carregada por `\bibliography{referencias}`; novas referências entram sempre nesse arquivo, nunca em outro `.bib`. `abntex2-options.bib` é do template e não se mexe.
 
 ## Números, unidades e símbolos
 
-Vírgula decimal em modo matemático e espaço não separável antes da unidade: `$0{,}5$~cm`, `$5$~mm`, `$380$~keV`, `$2{,}5$~Gy`. Nunca ponto decimal, nunca número e unidade colados ou separados por espaço comum. Isótopos como `$^{192}$Ir`; graus como `$0^\circ$` (o `\degree` vem do `gensymb`). Percentuais como `$100\%$`. Variáveis e símbolos físicos sempre em modo matemático e em itálico (`$D$`, `$S_K$`, `$\theta$`). Estrangeirismos e termos latinos em itálico (`\textit{gap}`, `\textit{in vivo}`, `\textit{phantom}` quando não traduzido). Aspas LaTeX (``assim''), nunca aspas retas. Travessão de aposto com `---` entre espaços.
+Vírgula decimal em modo matemático e espaço não separável antes da unidade: `$0{,}5$~cm`, `$5$~mm`, `$20$~kg`, `$2{,}5$~m`. Nunca ponto decimal, nunca número e unidade colados ou separados por espaço comum. Isótopos como `$^{14}$C`; graus como `$0^\circ$` (o `\degree` vem do `gensymb`). Percentuais como `$100\%$`. Variáveis e símbolos sempre em modo matemático e em itálico (`$x$`, `$y$`, `$\theta$`). Estrangeirismos e termos latinos em itálico (`\textit{software}`, `\textit{in loco}`). Aspas LaTeX (``assim''), nunca aspas retas. Travessão de aposto com `---` entre espaços.
 
 ## Equações
 
-Ambiente `equation` com `\label{eq:...}` na linha seguinte, pontuação final dentro da equação (vírgula se a frase continua com "onde", ponto se encerra), indentação por tabulação, `\dfrac` em frações isoladas e `cases` com `\\[8pt]` para casos. Derivada temporal com `\dot{D}`. Definir cada símbolo logo após a equação, em prosa. Espaçamentos verticais já definidos no preâmbulo (`\abovedisplayskip` 5pt, `\belowdisplayskip` 12pt); não sobrescrever.
+Ambiente `equation` com `\label{eq:...}` na linha seguinte, pontuação final dentro da equação (vírgula se a frase continua com "onde", ponto se encerra), indentação por tabulação, `\dfrac` em frações isoladas e `cases` com `\\[8pt]` para casos. Derivada temporal com `\dot{x}`. Definir cada símbolo logo após a equação, em prosa. Espaçamentos verticais já definidos no preâmbulo (`\abovedisplayskip` 5pt, `\belowdisplayskip` 12pt); não sobrescrever.
 
 ## Tabelas (padrão obrigatório)
 
@@ -76,9 +78,9 @@ Ambiente `table[h!]` centralizado, `\setlength{\tabcolsep}{8pt}`, `\renewcommand
 
 ## Figuras
 
-Ambiente `figure[h!]` com `\centering`, `\includegraphics[width=0.95\linewidth]{figuras/arquivo.pdf}` (o `\graphicspath` já cobre `figuras/`, `graficos/`, `figuras/filmes/` e `figuras/dosimetrias/`), `\caption[título curto para a lista]{legenda completa}`, `\label{fig:...}` e, ao final, `\legend{Fonte: elaborado pelo autor.}` (ou `\citeonline{chave}` quando adaptada). Preferir PDF vetorial; PNG só para mapas de dose rasterizados. Subfiguras: `subfigure[b]{0.49\linewidth}` com `\centering`, `\hfill` entre as duas colunas e `\\[1.5ex]` entre linhas, cada uma com sua `\caption{}` curta, e a legenda geral ao final.
+Ambiente `figure[h!]` com `\centering`, `\includegraphics[width=0.95\linewidth]{figuras/arquivo.pdf}` (o `\graphicspath` cobre `figuras/` e `graficos/`), `\caption[título curto para a lista]{legenda completa}`, `\label{fig:...}` e, ao final, `\legend{Fonte: elaborado pelo autor.}` (ou `\citeonline{chave}` quando adaptada). Preferir PDF vetorial; PNG só para imagens rasterizadas. Subfiguras: `subfigure[b]{0.49\linewidth}` com `\centering`, `\hfill` entre as duas colunas e `\\[1.5ex]` entre linhas, cada uma com sua `\caption{}` curta, e a legenda geral ao final.
 
-Figuras geradas em Python (matplotlib) seguem este padrão, e o `.py` gerador é sempre salvo em `figuras/` (ex.: `gera_fluxo_metodo.py`):
+Para figuras científicas em matplotlib, esta skill pode ser usada em conjunto com a skill `scientific-figures` (<https://github.com/juancarlosc504/scientific-figures>), que gera cada figura com um script `gera_*.py` reprodutível e um verificador (`checa_figura.py`). Esta skill cuida do LaTeX (ambiente, legenda, rótulo, fonte); a `scientific-figures` cuida da figura em si. Em caso de conflito sobre o conteúdo gráfico, vale a `scientific-figures`. As figuras geradas em Python (matplotlib) seguem este padrão, e o `.py` gerador é sempre salvo em `figuras/` (ex.: `gera_figura.py`):
 
 ```python
 plt.rcParams.update({
@@ -88,23 +90,23 @@ plt.rcParams.update({
 })
 ```
 
-Sem título dentro da imagem (a legenda fica no `\caption`). Fonte serifada, rótulos de eixo em torno de 12 pt e em negrito, variáveis em itálico via mathtext (`$D$`, `$\theta$`). Decimal com vírgula (`r"$2{,}5$ Gy"`). Grade cinza clara pontilhada (`ls=":", color="0.82"`) nos gráficos de dados; diagramas esquemáticos sem grade. Cores: azul `#1f5fa8` e vermelho `#c0392b` para destaques; blocos de material em diagramas com azul claro `#CFE2F3`, verde claro `#EAF7EA` e bege `#E8D8C3`. Rótulos com inicial maiúscula nos termos-chave; legenda de símbolos no formato "símbolo - descrição", uma linha por símbolo; numeração só quando o texto referencia por número. Conferir sobreposição e texto vazando da borda (usar `tight_layout` ou limites com folga) e gerar prévia PNG antes de sobrescrever o PDF definitivo.
+Sem título dentro da imagem (a legenda fica no `\caption`). Fonte serifada, rótulos de eixo em torno de 12 pt e em negrito, variáveis em itálico via mathtext (`$x$`, `$\theta$`). Decimal com vírgula (`r"$2{,}5$ m"`). Grade cinza clara pontilhada (`ls=":", color="0.82"`) nos gráficos de dados; diagramas esquemáticos sem grade. Cores: azul `#1f5fa8` e vermelho `#c0392b` para destaques; blocos em diagramas com azul claro `#CFE2F3`, verde claro `#EAF7EA` e bege `#E8D8C3`. Rótulos com inicial maiúscula nos termos-chave; legenda de símbolos no formato "símbolo - descrição", uma linha por símbolo; numeração só quando o texto referencia por número. Conferir sobreposição e texto vazando da borda (usar `tight_layout` ou limites com folga) e gerar prévia PNG antes de sobrescrever o PDF definitivo.
 
 ## Marcadores de revisão (definidos em config/comandos.tex)
 
-`\novo{...}` marca texto recém-inserido em vermelho; aprovar significa trocar a definição por `#1`, sem tocar no texto. `\verde{...}` marca incorporações da revisão crítica (heterogeneidade e orçamento de incertezas), `\magenta{...}` marca citações sugeridas ainda não avaliadas, `\preencher{descrição}` marca lacunas dependentes de dados experimentais e `\citar` marca citação pendente. Ao inserir texto novo a pedido de Juan, envolver o trecho em `\novo{}` (títulos de seção novos incluídos). Nunca remover marcadores existentes por conta própria.
+`\novo{...}` marca texto recém-inserido em vermelho; aprovar significa trocar a definição por `#1`, sem tocar no texto. `\verde{...}` marca incorporações de uma revisão específica, `\magenta{...}` marca citações sugeridas ainda não avaliadas, `\preencher{descrição}` marca lacunas pendentes e `\citar` marca citação pendente. Ao inserir texto novo a pedido do autor, envolver o trecho em `\novo{}` (títulos de seção novos incluídos). Nunca remover marcadores existentes por conta própria.
 
 ## Listas de siglas e símbolos
 
-Ficam em `pretextual/listas_pretextuais.tex` (`\begin{siglas}` e `\begin{simbolos}`), em ordem alfabética (símbolos: latinos antes de gregos). Siglas em inglês: forma por extenso em itálico e tradução entre parênteses, no estilo ABNT. A atualização é manual: não revisar nem repopular a cada edição, apenas quando Juan pedir uma varredura.
+Ficam em `pretextual/listas_pretextuais.tex` (`\begin{siglas}` e `\begin{simbolos}`), em ordem alfabética (símbolos: latinos antes de gregos). Siglas em inglês: forma por extenso em itálico e tradução entre parênteses, no estilo ABNT. A atualização é manual: não revisar nem repopular a cada edição, apenas quando o autor pedir uma varredura.
 
-## Estrutura em partes e apêndices
+## Partes e apêndices
 
-A tese usa `\part{...}` para separar a Parte I (fundamentação e simulação Monte Carlo) da Parte II (proposta de verificação experimental). Apêndices ficam em `apendices/`, dentro de `apendicesenv` com `\partapendices`, um arquivo por apêndice; referenciá-los com `\aref`. Listagens de código e inputs usam `lstlisting` com o `\lstset` já definido no preâmbulo.
+`\part{...}` agrupa capítulos em partes, quando necessário. Apêndices ficam em `apendices/`, dentro de `apendicesenv` com `\partapendices`, um arquivo por apêndice; referenciá-los com `\aref`. Listagens de código e inputs usam `lstlisting` com o `\lstset` já definido no preâmbulo.
 
 ## Compilação
 
-`latexmk -pdf tese_juan.tex`. Erro `Undefined control sequence` com `\tempf@rtoc` indica `.toc` ou `.aux` corrompido, não erro de texto. Na sessão via bridge a exclusão é bloqueada: truncar apenas `.toc` e `.out` (`: > tese_juan.toc`), nunca o `.aux`; se o bibtex acusar "no \citation commands", rodar `pdflatex`, `bibtex`, `pdflatex`, `pdflatex`.
+`latexmk -pdf <documento mestre>.tex`. Erro `Undefined control sequence` com `\tempf@rtoc` indica `.toc` ou `.aux` corrompido, não erro de texto. Em pasta conectada que bloqueia exclusão, truncar apenas `.toc` e `.out` (`: > arquivo.toc`), nunca o `.aux`; se o bibtex acusar "no \citation commands", rodar `pdflatex`, `bibtex`, `pdflatex`, `pdflatex`.
 
 ## Conferência final
 
@@ -112,7 +114,7 @@ Texto justificado e sem estouro de margem; unidades no formato `$n$~unidade` com
 
 ## Arquivos do modelo
 
-Todos os campos entre colchetes são para Juan preencher; nada abaixo traz dados da tese atual.
+Todos os campos entre colchetes são para o autor preencher; nada abaixo traz dados de um trabalho existente.
 
 ### tese_modelo.tex
 

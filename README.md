@@ -1,16 +1,18 @@
 # Minha tese bonitinha
 
-Skill do Claude e pasta LaTeX modelo com o padrão de formatação da tese de doutorado de Juan Carlos Lamônica (UFMG, PPG em Ciências e Técnicas Nucleares), baseado na classe abnTeX2. O repositório reúne duas coisas: o arquivo `SKILL.md`, que ensina o Claude a escrever e editar a tese nesse padrão e a criar a pasta modelo, e a pasta `modelo/`, um documento canônico, sem dados preenchidos, que pode ser usado diretamente no TeXstudio ou em outro editor, com ou sem o Claude.
+Autor: Juan Carlos Lamônica.
+
+Skill do Claude e pasta LaTeX modelo com um padrão de formatação para teses e dissertações. **A skill é feita com base no modelo canônico do abnTeX2** (<https://www.abntex.net.br>): parte da classe `abntex2` e das normas ABNT que ele implementa e acrescenta convenções próprias de formatação (tabelas, figuras, equações, citações, unidades, marcadores de revisão). O repositório reúne o arquivo `SKILL.md`, que ensina o Claude a escrever e editar documentos nesse padrão e a criar a pasta modelo, e a pasta `modelo/`, um documento canônico, sem dados preenchidos, que pode ser usado diretamente no TeXstudio ou em outro editor, com ou sem o Claude.
 
 ## Requisito: distribuição TeX instalada
 
 Para compilar o modelo, e qualquer capítulo escrito nesse padrão, é necessário ter uma distribuição TeX completa instalada no computador: **MacTeX** no macOS ou **MiKTeX** no Windows (no Linux, TeX Live). O modelo usa `latexmk`, `pdflatex` e `bibtex`, além de pacotes como `memoir`, `microtype`, `isotope`, `nomencl`, `imakeidx`, `caption`, `tocloft`, `booktabs`, `pdfpages` e `listings`. Sem a distribuição, o `.tex` não gera PDF; o Claude também depende dela para compilar e conferir o resultado.
 
-A classe `abntex2` e os arquivos de idioma (`brazil.ldf`, `brazilian.ldf`, `portuges.ldf`) acompanham o modelo na própria pasta, copiados da pasta de trabalho da tese, de modo que não dependem da versão instalada no sistema.
+A classe `abntex2` e os arquivos de idioma (`brazil.ldf`, `brazilian.ldf`, `portuges.ldf`) acompanham o modelo na própria pasta, copiados de um projeto abnTeX2, de modo que não dependem da versão instalada no sistema.
 
-### Ambiente de referência (computador de Juan)
+### Ambiente de referência (computador do autor)
 
-Os dados abaixo foram extraídos do log de compilação da tese (`tese_juan.log`) e do próprio computador:
+Os dados abaixo foram extraídos do log de uma compilação real e do próprio computador:
 
 | Item | Valor |
 |---|---|
@@ -21,7 +23,6 @@ Os dados abaixo foram extraídos do log de compilação da tese (`tese_juan.log`
 | Classe base | `memoir` 3.8.4b, com `abntex2` v-1.9.7 local |
 | Compilação | `latexmk` (pdflatex + bibtex), estilo `abntex2-alf` |
 | Editor | TeXstudio, compilador padrão `txs:///latexmk`, corretor `pt_BR` |
-| Controle de versão | Git, com o script `commit.sh` na pasta da tese |
 
 ### Instalação
 
@@ -57,11 +58,24 @@ cd modelo
 latexmk -pdf tese_modelo.tex
 ```
 
-No TeXstudio, abrir `tese_modelo.tex` e usar F5, com o compilador padrão `txs:///latexmk`. Cada arquivo de `capitulos/`, `pretextual/` e `apendices/` começa com `% !TeX root = ../tese_modelo.tex`, o que permite compilar a tese inteira a partir de qualquer capítulo. O capítulo `capitulo_modelo.tex` traz exemplos prontos de tabela, figura, subfiguras, equação, unidades, citações, referências cruzadas e marcadores de revisão. As figuras `exemplo*.pdf` são apenas ilustrativas e podem ser removidas.
+No TeXstudio, abrir `tese_modelo.tex` e usar F5, com o compilador padrão `txs:///latexmk`. Cada arquivo de `capitulos/`, `pretextual/` e `apendices/` começa com `% !TeX root = ../tese_modelo.tex`, o que permite compilar o documento inteiro a partir de qualquer capítulo. O capítulo `capitulo_modelo.tex` traz exemplos prontos de tabela, figura, subfiguras, equação, unidades, citações, referências cruzadas e marcadores de revisão. As figuras `exemplo*.pdf` são apenas ilustrativas e podem ser removidas.
 
 ## Como usar como skill do Claude
 
-O arquivo `SKILL.md` na raiz é a skill. Para instalá-la, importar o arquivo na área de skills do Claude. Depois disso, o Claude aplica o padrão ao escrever ou editar `.tex` da tese e, quando solicitado, cria a pasta `Tese LaTeX - Modelo` na pasta conectada, com o mesmo conteúdo de `modelo/`.
+O arquivo `SKILL.md` na raiz é a skill. Para instalá-la, importar o arquivo na área de skills do Claude. Depois disso, o Claude aplica o padrão ao escrever ou editar `.tex` e, quando solicitado, cria a pasta `Tese LaTeX - Modelo` na pasta conectada, com o mesmo conteúdo de `modelo/`.
+
+## Uso em conjunto com a skill de figuras científicas
+
+Para as figuras do documento, esta skill pode ser usada junto com a **scientific-figures**: <https://github.com/juancarlosc504/scientific-figures>. Ela gera gráficos, mapas e diagramas em matplotlib no padrão de publicação (Times + STIX, fundo transparente, vírgula decimal, sem título embutido), sempre com um script `gera_*.py` que reproduz a figura e um verificador (`checa_figura.py`). A divisão de tarefas é simples: a **scientific-figures** produz o arquivo da figura (PDF ou PNG) em `figuras/`, e a **minha-tese-bonitinha** cuida de como a figura entra no LaTeX (ambiente `figure`, legenda, rótulo, `\legend{Fonte: ...}` e `\autoref`).
+
+Instalação da skill de figuras no Claude Code:
+
+```bash
+claude plugin marketplace add juancarlosc504/scientific-figures
+claude plugin install scientific-figures@scientific-figures
+```
+
+No claude.ai, baixar o arquivo `scientific-figures.skill` na página de Releases do repositório e enviá-lo em *Settings, Capabilities, Skills*.
 
 ## Estrutura do repositório
 
