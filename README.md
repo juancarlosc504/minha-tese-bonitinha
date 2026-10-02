@@ -85,6 +85,8 @@ No claude.ai, baixar o arquivo `scientific-figures.skill` na página de Releases
 minha-tese-bonitinha/
 ├── README.md
 ├── SKILL.md                     skill do Claude (regras de formatação e modelo embutido)
+├── LICENSE                      MIT (material do autor)
+├── NOTICE.md                    camadas de licença (MIT e LPPL do abnTeX2)
 └── modelo/                      pasta LaTeX canônica
     ├── tese_modelo.tex          documento mestre
     ├── referencias.bib          bibliografia única
@@ -96,6 +98,6 @@ minha-tese-bonitinha/
     └── abntex2.cls, abntex2cite.sty, *.bst, *.ldf   arquivos de classe e idioma
 ```
 
-## Observação sobre licenças
+## Licença
 
-Os arquivos `abntex2*` e `*.bst` pertencem ao projeto abnTeX2 e seguem a licença LPPL de origem (<https://www.abntex.net.br>).
+O material de autoria de Juan Carlos Lamonica, MSc, está sob a licença MIT (arquivo `LICENSE`). Os arquivos do abnTeX2 (`abntex2*`, `*.bst`, `*.ldf`, `portuges.sty`) continuam sob a licença LPPL de origem (<https://www.abntex.net.br>) e não são relicenciados. A divisão completa está em `NOTICE.md`.

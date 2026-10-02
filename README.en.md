@@ -89,6 +89,8 @@ minha-tese-bonitinha/
 ├── README.en.md                 English
 ├── SKILL.md                     Claude skill (formatting rules and embedded template), Portuguese
 ├── SKILL.en.md                  Claude skill, English translation
+├── LICENSE                      MIT (author's material)
+├── NOTICE.md                    license layers (MIT and abnTeX2 LPPL)
 └── modelo/                      canonical LaTeX folder
     ├── tese_modelo.tex          master document
     ├── referencias.bib          single bibliography
@@ -100,6 +102,6 @@ minha-tese-bonitinha/
     └── abntex2.cls, abntex2cite.sty, *.bst, *.ldf   class and language files
 ```
 
-## Note on licenses
+## License
 
-The `abntex2*` and `*.bst` files belong to the abnTeX2 project and follow its original LPPL license (<https://www.abntex.net.br>).
+The material authored by Juan Carlos Lamonica, MSc, is under the MIT License (`LICENSE` file). The abnTeX2 files (`abntex2*`, `*.bst`, `*.ldf`, `portuges.sty`) remain under their original LPPL license (<https://www.abntex.net.br>) and are not relicensed. The full breakdown is in `NOTICE.md`.
