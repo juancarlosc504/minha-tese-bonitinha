@@ -95,10 +95,10 @@ In the conversation, ask: "Which table rules will you follow for this thesis?" T
 To push changes to your own repository (a fork of the original or a copy of yours), commit and push. The original repository belongs to juancarlosc504; to propose improvements to it, open a pull request from your fork, and to keep your own version, replace the `git clone` address with that of your fork:
 
 ```bash
-cd /path/to/minha-tese-bonitinha   # the folder where you cloned the repository
+cd ~/.claude/skills/minha-tese-bonitinha   # the Claude Code folder, where the repository was cloned in section 3
 git add -A
 git commit -m "Describe the change"
 git push origin main
 ```
 
-If Git asks for a login, use your own GitHub username and, in place of the password, a GitHub personal access token (under *Settings, Developer settings, Personal access tokens*). Another option is to run `gh auth login` once, if `gh` is installed; after that `git push` works without asking for credentials. If the skill was installed by cloning into `~/.claude/skills/minha-tese-bonitinha`, changes made there are pushed with the same commands, run from that folder.
+If Git asks for a login, use your own GitHub username and, in place of the password, a GitHub personal access token (under *Settings, Developer settings, Personal access tokens*). Another option is to run `gh auth login` once, if `gh` is installed; after that `git push` works without asking for credentials. If you cloned the repository into another folder, run the same commands from there.
