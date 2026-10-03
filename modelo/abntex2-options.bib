@@ -214,3 +214,11 @@
  iso-author-punctuation="void",
  iso-date-place="ISO",
  key="aaaa"}
+
+% NBR 10520:2023 -- sobrenome em caixa alta e baixa na citacao. A entrada
+% "abnt-cite-style=AuthorYEAR" acima nunca e lida: o BibTeX compara chaves sem
+% diferenciar maiusculas e a descarta como repetida da "abnt-cite-style=AUTHORYEAR".
+% Chave propria, mesmo valor. Usada por \usepackage[...,abnt-cite-style=nbr10520-2023]{abntex2cite}.
+@ABNT-options{abnt-cite-style=nbr10520-2023,
+ abnt-cite-style="(Author, YEAR)",
+ key="aaaa"}

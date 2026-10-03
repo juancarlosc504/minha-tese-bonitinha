@@ -26,7 +26,7 @@ Tese LaTeX - Modelo/
 └── figuras/  graficos/      ← vazias (com .gitkeep)
 ```
 
-Os arquivos de classe e estilo (`abntex2.cls`, `abntex2cite.sty`, `*.bst`, `brazil.ldf` etc.) não são recriados: se o TeX do computador não os tiver, copiá-los de um projeto abnTeX2 existente. Depois de criar, compilar uma vez com `latexmk -pdf tese_modelo.tex` e informar só o resumo (páginas e erros); o modelo deve sair sem erros e sem referências indefinidas.
+Os arquivos de classe e estilo (`abntex2.cls`, `abntex2cite.sty`, `*.bst`, `brazil.ldf` etc.) não são recriados: se o TeX do computador não os tiver, copiá-los de um projeto abnTeX2 existente. O `abntex2-options.bib` precisa da entrada `nbr10520-2023` (ver "Citações e bibliografia"); sem ela a compilação falha no BibTeX. Depois de criar, compilar uma vez com `latexmk -pdf tese_modelo.tex` e informar só o resumo (páginas e erros); o modelo deve sair sem erros e sem referências indefinidas.
 
 ## Converter um .docx em projeto LaTeX
 
@@ -38,7 +38,7 @@ O autor pode editar os arquivos por fora (por exemplo, no TeXstudio) entre sess�
 
 ## Documento e preâmbulo
 
-O documento mestre (`tese_modelo.tex` no modelo; compilar sempre ele) usa a classe `abntex2` com 12pt, `oneside`, `openright`, `a4paper`, `chapter=TITLE` (capítulos em caixa alta) e `sumario=abnt-6027-2012`. Idioma principal `brazil`, com `\frenchspacing`. Fonte Latin Modern (`lmodern`, `T1`, `utf8`) e `microtype` para justificação. O texto é sempre justificado; recuo de parágrafo `\setlength{\parindent}{1.3cm}` e `\setlength{\parskip}{0.2cm}`. Títulos de seção e subseção em `\normalsize`, negrito, fonte `lmr`. Figuras e tabelas numeradas por capítulo (`\counterwithin`). Citações com `abntex2cite` (`alf`, `bibjustif`, `abnt-etal-text=it`). Não alterar o preâmbulo sem pedido explícito; novos comandos vão em `config/comandos.tex`.
+O documento mestre (`tese_modelo.tex` no modelo; compilar sempre ele) usa a classe `abntex2` com 12pt, `oneside`, `openright`, `a4paper`, `chapter=TITLE` (capítulos em caixa alta) e `sumario=abnt-6027-2012`. Idioma principal `brazil`, com `\frenchspacing`. Fonte Latin Modern (`lmodern`, `T1`, `utf8`) e `microtype` para justificação. O texto é sempre justificado; recuo de parágrafo `\setlength{\parindent}{1.3cm}` e `\setlength{\parskip}{0.2cm}`. Títulos de seção e subseção em `\normalsize`, negrito, fonte `lmr`. Figuras e tabelas numeradas por capítulo (`\counterwithin`). Citações com `abntex2cite` (`alf`, `bibjustif`, `abnt-etal-text=it`, `abnt-cite-style=nbr10520-2023`). Não alterar o preâmbulo sem pedido explícito; novos comandos vão em `config/comandos.tex`.
 
 Este preâmbulo, o `config/comandos.tex` e os pré-textuais do modelo já incorporam a formatação da tese do próprio autor, que foi usada apenas para acertar o padrão: o que ela ensinou sobre formatação está nesta skill, e é daqui que parte qualquer projeto novo ou convertido, sem precisar de tese alguma na pasta. Ficam de fora, por serem específicos de um trabalho, os pacotes `lipsum`, `svg`, `tabu` e `perpage`, o `\tikzstyle`, os blocos `comment` e as inclusões do tema. Ao gerar um projeto, trocar apenas os dados de identificação, o `\graphicspath` e a lista de capítulos. A tese do autor, com seus dados, texto e figuras, não entra no modelo nem em repositório público. Os trabalhos convertidos (por exemplo, a partir de um .docx) servem para validar a skill, não para acrescentar regras novas.
 
@@ -54,7 +54,28 @@ Sempre `\autoref{...}` (nunca "Figura 3" digitado à mão), inclusive para equa�
 
 ## Citações e bibliografia
 
-`\cite{chave}` para citação entre parênteses e `\citeonline{chave}` quando o autor é parte da frase ("conforme \citeonline{autor2024}"). Bibliografia única em `referencias.bib`, carregada por `\bibliography{referencias}`; novas referências entram sempre nesse arquivo, nunca em outro `.bib`. `abntex2-options.bib` é do template e não se mexe. No campo `title` usar sempre chaves duplas (`title = {{Título do Artigo}}`), para manter a caixa alta e baixa como digitada; os modelos de todos os tipos de entrada estão na seção "Arquivos do modelo", em `referencias.bib`. Sobrenome com sufixo (Jr., Filho, Neto) entra todo entre chaves, como `{Sobrenome Jr.}, Nome`, para o estilo não tratar o sufixo como sobrenome e a citação sair correta.
+As citações seguem a **NBR 10520:2023**: o sobrenome sai em caixa alta e baixa tanto entre parênteses quanto no texto — "(Silva, 2020)" e "Silva (2020)", nunca "(SILVA, 2020)". A lista de referências continua pela NBR 6023:2018, com sobrenome em maiúsculas. No abnTeX2 isso se liga com a opção `abnt-cite-style=nbr10520-2023` do `abntex2cite`, que lê uma entrada própria acrescentada ao `abntex2-options.bib` do modelo. A opção de fábrica `abnt-cite-style=AuthorYEAR` **não funciona**: o BibTeX não diferencia maiúsculas nas chaves e descarta essa entrada como repetida da `abnt-cite-style=AUTHORYEAR`, e as citações continuam em maiúsculas sem aviso. Ao montar um projeto, copiar o `abntex2-options.bib` do `modelo/` (com a entrada) e, fora dela, não mexer nesse arquivo. Se o `abntex2-options.bib` vier de outro lugar, acrescentar ao fim dele:
+
+```bibtex
+@ABNT-options{abnt-cite-style=nbr10520-2023,
+ abnt-cite-style="(Author, YEAR)",
+ key="aaaa"}
+```
+
+Variações de citação do `abntex2cite`:
+
+| Comando | Sai como | Uso |
+|---|---|---|
+| `\cite{chave}` | (Silva, 2020) | citação entre parênteses |
+| `\cite[p.~12]{chave}` | (Silva, 2020, p. 12) | citação direta, com página |
+| `\citeonline{chave}` | Silva (2020) | autor como sujeito da frase |
+| `\citeauthoronline{chave}` | Silva | nome no fluxo do texto, com o ano na mesma frase |
+| `\citeyear{chave}` | 2020 | só o ano |
+| `\apud{a}{b}` / `\apudonline{a}{b}` | (Silva, 2000 apud Souza, 2020) / Silva (2000 apud Souza, 2020) | citação de citação |
+
+Nunca digitar o nome do autor antes de um `\cite` ("Ogawa \cite{...}", "Devic et al. (2016)"): usar `\citeonline` ou `\citeauthoronline` + `\citeyear`. A ABNT pede o ano junto ao autor; o nome sozinho só quando o ano aparece na mesma frase.
+
+Bibliografia única em `referencias.bib`, carregada por `\bibliography{referencias}`; novas referências entram sempre nesse arquivo, nunca em outro `.bib`. No campo `title` usar sempre chaves duplas (`title = {{Título do Artigo}}`), para manter a caixa alta e baixa como digitada; os modelos de todos os tipos de entrada estão na seção "Arquivos do modelo", em `referencias.bib`. Sobrenome com sufixo (Jr., Filho, Neto) entra todo entre chaves, como `{Sobrenome Jr.}, Nome`, para o estilo não tratar o sufixo como sobrenome e a citação sair correta.
 
 ## Números, unidades e símbolos
 
@@ -66,13 +87,13 @@ Ambiente `equation` com `\label{eq:...}` na linha seguinte, pontuação final de
 
 ## Tabelas (padrão obrigatório)
 
-Ambiente `table[h!]` centralizado, `\setlength{\tabcolsep}{8pt}`, `\renewcommand{\arraystretch}{1.2}`, `\small`, colunas centralizadas de largura fixa `M{<largura>}` (comando do preâmbulo; a largura é arbitrada caso a caso conforme o conteúdo, não existe largura padrão). Réguas apenas `booktabs` (`\toprule`, `\midrule`, `\bottomrule`), nunca `\hline` nem barras verticais. Cabeçalho em `\textbf`; quebra de linha em cabeçalho com `\shortstack[c]{linha1 \\ linha2}`. Legenda acima (`\caption` com `\label{tab:...}`), fonte abaixo com `\legend{}`.
+Ambiente `table[h!]` centralizado, `\setlength{\tabcolsep}{8pt}`, `\renewcommand{\arraystretch}{1.2}`, `\small`, colunas centralizadas de largura fixa `M{<largura>}` (comando do preâmbulo; a largura é arbitrada caso a caso conforme o conteúdo, não existe largura padrão). Réguas apenas `booktabs` (`\toprule`, `\midrule`, `\bottomrule`), nunca `\hline` nem barras verticais. Cabeçalho em `\textbf`; quebra de linha em cabeçalho com `\shortstack[c]{linha1 \\ linha2}`. Legenda acima, sempre no formato `\caption[título curto]{legenda completa + fonte}` com `\label{tab:...}` (ver "Legendas de figuras e tabelas"); não usar `\legend{}`.
 
 ```latex
 \begin{table}[h!]\centering
 	\setlength{\tabcolsep}{8pt}
 	\renewcommand{\arraystretch}{1.2}
-	\caption{Legenda da tabela.}\label{tab:rotulo}
+	\caption[Título curto da tabela]{Legenda completa da tabela. Elaborado pelo autor.}\label{tab:rotulo}
 	\small
 	\begin{tabular}{M{1,8cm}M{4,2cm}M{2,4cm}}\toprule
 		\textbf{Coluna A} & \textbf{Coluna B} & \textbf{Coluna C} \\
@@ -80,13 +101,28 @@ Ambiente `table[h!]` centralizado, `\setlength{\tabcolsep}{8pt}`, `\renewcommand
 		... & ... & ... \\
 		\bottomrule
 	\end{tabular}
-	\legend{Fonte: elaborado pelo autor.}   % ou \legend{Fonte: \citeonline{chave}.}
 \end{table}
 ```
 
 ## Figuras
 
-Ambiente `figure[h!]` com `\centering`, `\includegraphics[width=0.95\linewidth]{figuras/arquivo.pdf}` (o `\graphicspath` cobre `figuras/` e `graficos/`), `\caption[título curto para a lista]{legenda completa}`, `\label{fig:...}` e, ao final, `\legend{Fonte: elaborado pelo autor.}` (ou `\citeonline{chave}` quando adaptada). Preferir PDF vetorial; PNG só para imagens rasterizadas. Figuras mais altas que largas (proporção altura/largura acima de cerca de 1,15) levam `\includegraphics[height=0.68\textheight,keepaspectratio]{...}` em vez de `width`, para não estourar a página e deixar espaço à legenda. Quando a legenda contém `\autoref` ou outro comando frágil, usar o título curto opcional em `\caption[...]{...}`, pois a lista de figuras não aceita o `\autoref`; nos demais casos o título curto é dispensável. Subfiguras: `subfigure[b]{0.49\linewidth}` com `\centering`, `\hfill` entre as duas colunas e `\\[1.5ex]` entre linhas, cada uma com sua `\caption{}` curta, e a legenda geral ao final.
+Ambiente `figure[h!]` com `\centering`, `\includegraphics[width=0.95\linewidth]{figuras/arquivo.pdf}` (o `\graphicspath` cobre `figuras/` e `graficos/`), `\caption[título curto]{legenda completa + fonte}` e `\label{fig:...}` (ver "Legendas de figuras e tabelas"); não usar `\legend{}`. Preferir PDF vetorial; PNG só para imagens rasterizadas. Figuras mais altas que largas (proporção altura/largura acima de cerca de 1,15) levam `\includegraphics[height=0.68\textheight,keepaspectratio]{...}` em vez de `width`, para não estourar a página e deixar espaço à legenda. Subfiguras: `subfigure[b]{0.49\linewidth}` com `\centering`, `\hfill` entre as duas colunas e `\\[1.5ex]` entre linhas, cada uma com sua `\caption{}` curta (sem título curto: subfigura não entra na lista), e a legenda geral ao final, no mesmo formato `\caption[curto]{completo + fonte}`.
+
+## Legendas de figuras e tabelas (padrão obrigatório)
+
+Toda figura e toda tabela usa `\caption[título curto]{legenda completa}`:
+
+- `[título curto]` sempre presente: é o que vai para a Lista de ilustrações / Lista de tabelas. Só o título, sem ponto final, sem citação e sem marcador de revisão (`\novo` etc.).
+- `{legenda completa}`: o título por extenso, a explicação necessária e, **no fim, a fonte**, dentro da própria legenda. Não usar `\legend{Fonte: ...}`.
+- Formas da fonte: figura ou tabela própria, `Elaborado pelo autor.`; refeita a partir de dados de outro trabalho, `Elaborado pelo autor, com base em \citeonline{chave}.`; reproduzida ou adaptada, `Adaptado de \citeonline{chave}.`. A citação é sempre `\citeonline`/`\cite`, nunca nome digitado.
+- Notas que antes iam no `\legend` (siglas, meio, observações) entram na legenda completa, depois da fonte.
+- Com o título curto presente, a legenda completa pode ter `\autoref`, `\cite` e `\novo{}` sem quebrar a lista.
+
+```latex
+\caption[Arquitetura dos filmes radiocrômicos EBT2 e EBT3]{Desenho esquemático da diferença entre a arquitetura dos filmes radiocrômicos EBT2 e EBT3. Adaptado de \citeonline{devic2016reference}.}
+```
+
+Observação de norma: para tabelas, a NBR 14724 remete às Normas de Apresentação Tabular do IBGE, que põem a fonte no rodapé. Este padrão leva a fonte para o título por decisão do autor; avisar se a banca ou a biblioteca do programa exigir o rodapé.
 
 Para figuras científicas em matplotlib, esta skill pode ser usada em conjunto com a skill `scientific-figures` (<https://github.com/juancarlosc504/scientific-figures>), que gera cada figura com um script `gera_*.py` reprodutível e um verificador (`checa_figura.py`). Esta skill cuida do LaTeX (ambiente, legenda, rótulo, fonte); a `scientific-figures` cuida da figura em si. Em caso de conflito sobre o conteúdo gráfico, vale a `scientific-figures`. As figuras geradas em Python (matplotlib) seguem este padrão, e o `.py` gerador é sempre salvo em `figuras/` (ex.: `gera_figura.py`):
 
@@ -118,7 +154,7 @@ Ficam em `pretextual/listas_pretextuais.tex` (`\begin{siglas}` e `\begin{simbolo
 
 ## Conferência final
 
-Texto justificado e sem estouro de margem; unidades no formato `$n$~unidade` com vírgula decimal; todas as referências cruzadas via `\autoref`/`\aref`; tabelas sem `\hline`; figuras com `\legend{Fonte: ...}` e figuras altas com limite de altura; citações em `referencias.bib` e com `\cite` ou `\citeonline` adequados; títulos do `.bib` com chaves duplas; capa em 12 pt com caixa alta; palavras-chave separadas por ponto e vírgula; texto novo em `\novo{}`; compilação sem erros e sem referências ou citações indefinidas.
+Texto justificado e sem estouro de margem; unidades no formato `$n$~unidade` com vírgula decimal; todas as referências cruzadas via `\autoref`/`\aref`; tabelas sem `\hline`; figuras e tabelas com `\caption[curto]{completo + fonte}` e nenhum `\legend`; figuras altas com limite de altura; citações em caixa alta e baixa (NBR 10520:2023); citações em `referencias.bib` e com `\cite` ou `\citeonline` adequados; títulos do `.bib` com chaves duplas; capa em 12 pt com caixa alta; palavras-chave separadas por ponto e vírgula; texto novo em `\novo{}`; compilação sem erros e sem referências ou citações indefinidas.
 
 ## Arquivos do modelo
 
@@ -143,7 +179,7 @@ Todos os campos entre colchetes são para o autor preencher; nada abaixo traz da
 \usepackage{microtype}
 \usepackage{enumitem}
 \input{config/comandos}
-\usepackage[alf,bibjustif,abnt-etal-text=it,abnt-etal-list=2,abnt-etal-cite=2]{abntex2cite}
+\usepackage[alf,bibjustif,abnt-etal-text=it,abnt-etal-list=2,abnt-etal-cite=2,abnt-cite-style=nbr10520-2023]{abntex2cite}
 \usepackage{multicol}
 \usepackage{verbatim}
 \usepackage{listings}
@@ -310,7 +346,7 @@ onde $y$ é a variável dependente, $x$ a variável independente, $a$ o coeficie
 \begin{table}[h!]\centering
 	\setlength{\tabcolsep}{8pt}
 	\renewcommand{\arraystretch}{1.2}
-	\caption{Legenda da tabela.}\label{tab:modelo}
+	\caption[Título curto da tabela]{Legenda completa da tabela. Elaborado pelo autor.}\label{tab:modelo}
 	\small
 	\begin{tabular}{M{2,4cm}M{4,2cm}M{2,4cm}}\toprule
 		\textbf{Coluna A} & \textbf{Coluna B} & \textbf{Coluna C} \\
@@ -318,15 +354,13 @@ onde $y$ é a variável dependente, $x$ a variável independente, $a$ o coeficie
 		$1{,}0$ & texto & $2{,}5$~kg \\
 		\bottomrule
 	\end{tabular}
-	\legend{Fonte: elaborado pelo autor.}
 \end{table}
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.95\linewidth]{figuras/exemplo.pdf}
-	\caption[Título curto]{Legenda completa da figura.}
+	\caption[Título curto da figura]{Legenda completa da figura. Elaborado pelo autor.}
 	\label{fig:modelo}
-	\legend{Fonte: elaborado pelo autor.}
 \end{figure}
 
 \begin{figure}[h!]
@@ -337,9 +371,8 @@ onde $y$ é a variável dependente, $x$ a variável independente, $a$ o coeficie
 	\begin{subfigure}[b]{0.49\linewidth}\centering
 		\includegraphics[width=\linewidth]{figuras/exemplo_b.pdf}
 		\caption{Painel B}\end{subfigure}
-	\caption{Legenda geral das subfiguras.}
+	\caption[Título curto das subfiguras]{Legenda geral das subfiguras. Elaborado pelo autor.}
 	\label{fig:modelo_sub}
-	\legend{Fonte: elaborado pelo autor.}
 \end{figure}
 
 \section{\novo{[Seção com Texto Novo]}}

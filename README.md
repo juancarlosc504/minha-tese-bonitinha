@@ -70,7 +70,7 @@ O arquivo `SKILL.md` na raiz é a skill. Para instalá-la, importar o arquivo na
 
 ## Uso em conjunto com a skill de figuras científicas
 
-Para as figuras do documento, esta skill pode ser usada junto com a **scientific-figures**: <https://github.com/juancarlosc504/scientific-figures>. Ela gera gráficos, mapas e diagramas em matplotlib no padrão de publicação (Times + STIX, fundo transparente, vírgula decimal, sem título embutido), sempre com um script `gera_*.py` que reproduz a figura e um verificador (`checa_figura.py`). A divisão de tarefas é simples: a **scientific-figures** produz o arquivo da figura (PDF ou PNG) em `figuras/`, e a **minha-tese-bonitinha** cuida de como a figura entra no LaTeX (ambiente `figure`, legenda, rótulo, `\legend{Fonte: ...}` e `\autoref`).
+Para as figuras do documento, esta skill pode ser usada junto com a **scientific-figures**: <https://github.com/juancarlosc504/scientific-figures>. Ela gera gráficos, mapas e diagramas em matplotlib no padrão de publicação (Times + STIX, fundo transparente, vírgula decimal, sem título embutido), sempre com um script `gera_*.py` que reproduz a figura e um verificador (`checa_figura.py`). A divisão de tarefas é simples: a **scientific-figures** produz o arquivo da figura (PDF ou PNG) em `figuras/`, e a **minha-tese-bonitinha** cuida de como a figura entra no LaTeX (ambiente `figure`, legenda, rótulo, fonte dentro do `\caption[curto]{completo}` e `\autoref`).
 
 Instalação da skill de figuras no Claude Code:
 

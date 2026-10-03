@@ -72,7 +72,7 @@ The `SKILL.md` file at the root is the skill (Portuguese); `SKILL.en.md` is its 
 
 ## Use together with the scientific figures skill
 
-For the figures in the document, this skill can be used together with **scientific-figures**: <https://github.com/juancarlosc504/scientific-figures>. It generates plots, maps and diagrams in matplotlib at publication standard (Times + STIX, transparent background, decimal comma, no embedded title), always with a `gera_*.py` script that reproduces the figure and a checker (`checa_figura.py`). The division of tasks is simple: **scientific-figures** produces the figure file (PDF or PNG) in `figuras/`, and **minha-tese-bonitinha** takes care of how the figure enters the LaTeX (`figure` environment, caption, label, `\legend{Fonte: ...}` and `\autoref`).
+For the figures in the document, this skill can be used together with **scientific-figures**: <https://github.com/juancarlosc504/scientific-figures>. It generates plots, maps and diagrams in matplotlib at publication standard (Times + STIX, transparent background, decimal comma, no embedded title), always with a `gera_*.py` script that reproduces the figure and a checker (`checa_figura.py`). The division of tasks is simple: **scientific-figures** produces the figure file (PDF or PNG) in `figuras/`, and **minha-tese-bonitinha** takes care of how the figure enters the LaTeX (`figure` environment, caption, label, source inside `\caption[short]{full}` and `\autoref`).
 
 Installing the figures skill in Claude Code:
 

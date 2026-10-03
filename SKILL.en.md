@@ -28,7 +28,7 @@ Tese LaTeX - Modelo/
 └── figuras/  graficos/      ← empty (with .gitkeep)
 ```
 
-Class and style files (`abntex2.cls`, `abntex2cite.sty`, `*.bst`, `brazil.ldf`, etc.) are not recreated: if the computer's TeX installation does not have them, copy them from an existing abnTeX2 project. After creating, compile once with `latexmk -pdf tese_modelo.tex` and report only the summary (pages and errors); the template must build with no errors and no undefined references.
+Class and style files (`abntex2.cls`, `abntex2cite.sty`, `*.bst`, `brazil.ldf`, etc.) are not recreated: if the computer's TeX installation does not have them, copy them from an existing abnTeX2 project. After creating, compile once with `latexmk -pdf tese_modelo.tex` and report only the summary (pages and errors); the template must build with no errors and no undefined references. `abntex2-options.bib` needs the `nbr10520-2023` entry (see "Citations and bibliography"); without it BibTeX fails.
 
 ## Converting a .docx into a LaTeX project
 
@@ -40,7 +40,7 @@ The author may edit the files externally (for example, in TeXstudio) between ses
 
 ## Document and preamble
 
-The master document (`tese_modelo.tex` in the template; always compile it) uses the `abntex2` class with 12pt, `oneside`, `openright`, `a4paper`, `chapter=TITLE` (chapter titles in capitals) and `sumario=abnt-6027-2012`. Main language `brazil`, with `\frenchspacing`. Latin Modern font (`lmodern`, `T1`, `utf8`) and `microtype` for justification. Text is always justified; paragraph indent `\setlength{\parindent}{1.3cm}` and `\setlength{\parskip}{0.2cm}`. Section and subsection titles in `\normalsize`, bold, `lmr` font. Figures and tables numbered by chapter (`\counterwithin`). Citations with `abntex2cite` (`alf`, `bibjustif`, `abnt-etal-text=it`). Do not change the preamble without an explicit request; new commands go in `config/comandos.tex`.
+The master document (`tese_modelo.tex` in the template; always compile it) uses the `abntex2` class with 12pt, `oneside`, `openright`, `a4paper`, `chapter=TITLE` (chapter titles in capitals) and `sumario=abnt-6027-2012`. Main language `brazil`, with `\frenchspacing`. Latin Modern font (`lmodern`, `T1`, `utf8`) and `microtype` for justification. Text is always justified; paragraph indent `\setlength{\parindent}{1.3cm}` and `\setlength{\parskip}{0.2cm}`. Section and subsection titles in `\normalsize`, bold, `lmr` font. Figures and tables numbered by chapter (`\counterwithin`). Citations with `abntex2cite` (`alf`, `bibjustif`, `abnt-etal-text=it`, `abnt-cite-style=nbr10520-2023`). Do not change the preamble without an explicit request; new commands go in `config/comandos.tex`.
 
 This template's preamble, `config/comandos.tex` and front matter already incorporate the formatting of the author's own thesis, which was used only to settle the standard: whatever it taught about formatting is in this skill, and any new or converted project starts from here, with no thesis needed in the folder. Left out, as specific to one work, are the packages `lipsum`, `svg`, `tabu` and `perpage`, the `\tikzstyle`, the `comment` blocks and topic-specific includes. When generating a project, change only the identification data, `\graphicspath` and the chapter list. The author's thesis, with its data, text and figures, never enters the template or any public repository. Converted works (for example, from a .docx) serve to validate the skill, not to add new rules.
 
@@ -56,7 +56,28 @@ Always `\autoref{...}` (never "Figure 3" typed by hand), including for equations
 
 ## Citations and bibliography
 
-`\cite{key}` for parenthetical citations and `\citeonline{key}` when the author is part of the sentence ("according to \citeonline{author2024}"). Single bibliography in `referencias.bib`, loaded by `\bibliography{referencias}`; new references always go in that file, never in another `.bib`. `abntex2-options.bib` belongs to the template and is not touched. In the `title` field always use double braces (`title = {{Article Title}}`), so the capitalization stays exactly as typed; the models for every entry type are in `referencias.bib` (section "Arquivos do modelo" of `SKILL.md` and the `modelo/` folder). Exception: in `@proceedings` the title takes single braces. For `@phdthesis` and `@mastersthesis`, `type` holds only the field (`Doutorado em Área`), since the style already prints "Tese" or "Dissertação". Corporate authors go in double braces and in capitals.
+Citations follow **NBR 10520:2023**: the surname comes out in mixed case both in parentheses and in running text — "(Silva, 2020)" and "Silva (2020)", never "(SILVA, 2020)". The reference list still follows NBR 6023:2018, with surnames in capitals. In abnTeX2 this is switched on with the `abntex2cite` option `abnt-cite-style=nbr10520-2023`, which reads a dedicated entry added to the template's `abntex2-options.bib`. The stock option `abnt-cite-style=AuthorYEAR` **does not work**: BibTeX keys are case-insensitive, so that entry is discarded as a duplicate of `abnt-cite-style=AUTHORYEAR` and citations stay in capitals with no warning. When setting up a project, copy `abntex2-options.bib` from `modelo/` (with the entry) and otherwise do not touch that file. If `abntex2-options.bib` comes from elsewhere, append:
+
+```bibtex
+@ABNT-options{abnt-cite-style=nbr10520-2023,
+ abnt-cite-style="(Author, YEAR)",
+ key="aaaa"}
+```
+
+Citation variants in `abntex2cite`:
+
+| Command | Output | Use |
+|---|---|---|
+| `\cite{key}` | (Silva, 2020) | parenthetical citation |
+| `\cite[p.~12]{key}` | (Silva, 2020, p. 12) | direct quotation, with page |
+| `\citeonline{key}` | Silva (2020) | author as subject of the sentence |
+| `\citeauthoronline{key}` | Silva | name in running text, with the year in the same sentence |
+| `\citeyear{key}` | 2020 | year only |
+| `\apud{a}{b}` / `\apudonline{a}{b}` | (Silva, 2000 apud Souza, 2020) / Silva (2000 apud Souza, 2020) | secondary citation |
+
+Never type the author's name before a `\cite` ("Ogawa \cite{...}", "Devic et al. (2016)"): use `\citeonline` or `\citeauthoronline` + `\citeyear`. ABNT requires the year next to the author; the name alone only when the year appears in the same sentence.
+
+Single bibliography in `referencias.bib`, loaded by `\bibliography{referencias}`; new references always go in that file, never in another `.bib`. In the `title` field always use double braces (`title = {{Article Title}}`), so the capitalization stays exactly as typed; the models for every entry type are in `referencias.bib` (section "Arquivos do modelo" of `SKILL.md` and the `modelo/` folder). Exception: in `@proceedings` the title takes single braces. For `@phdthesis` and `@mastersthesis`, `type` holds only the field (`Doutorado em Área`), since the style already prints "Tese" or "Dissertação". Corporate authors go in double braces and in capitals.
 
 ## Numbers, units and symbols
 
@@ -68,13 +89,13 @@ Decimal comma in math mode and a non-breaking space before the unit: `$0{,}5$~cm
 
 ## Tables (mandatory standard)
 
-Centered `table[h!]` environment, `\setlength{\tabcolsep}{8pt}`, `\renewcommand{\arraystretch}{1.2}`, `\small`, centered fixed-width columns `M{<width>}` (preamble command; the width is chosen case by case according to the content, there is no default width). Rules only from `booktabs` (`\toprule`, `\midrule`, `\bottomrule`), never `\hline` or vertical bars. Header in `\textbf`; line breaks in headers with `\shortstack[c]{line1 \\ line2}`. Caption above (`\caption` with `\label{tab:...}`), source below with `\legend{}`.
+Centered `table[h!]` environment, `\setlength{\tabcolsep}{8pt}`, `\renewcommand{\arraystretch}{1.2}`, `\small`, centered fixed-width columns `M{<width>}` (preamble command; the width is chosen case by case according to the content, there is no default width). Rules only from `booktabs` (`\toprule`, `\midrule`, `\bottomrule`), never `\hline` or vertical bars. Header in `\textbf`; line breaks in headers with `\shortstack[c]{line1 \\ line2}`. Caption above, always as `\caption[short title]{full caption + source}` with `\label{tab:...}` (see "Figure and table captions"); do not use `\legend{}`.
 
 ```latex
 \begin{table}[h!]\centering
 	\setlength{\tabcolsep}{8pt}
 	\renewcommand{\arraystretch}{1.2}
-	\caption{Table caption.}\label{tab:rotulo}
+	\caption[Short table title]{Full table caption. Elaborado pelo autor.}\label{tab:rotulo}
 	\small
 	\begin{tabular}{M{1,8cm}M{4,2cm}M{2,4cm}}\toprule
 		\textbf{Column A} & \textbf{Column B} & \textbf{Column C} \\
@@ -82,13 +103,28 @@ Centered `table[h!]` environment, `\setlength{\tabcolsep}{8pt}`, `\renewcommand{
 		... & ... & ... \\
 		\bottomrule
 	\end{tabular}
-	\legend{Fonte: elaborado pelo autor.}   % or \legend{Fonte: \citeonline{key}.}
 \end{table}
 ```
 
 ## Figures
 
-`figure[h!]` environment with `\centering`, `\includegraphics[width=0.95\linewidth]{figuras/file.pdf}` (the `\graphicspath` covers `figuras/` and `graficos/`), `\caption[short title for the list]{full caption}`, `\label{fig:...}` and, at the end, `\legend{Fonte: elaborado pelo autor.}` (or `\citeonline{key}` when adapted). Prefer vector PDF; PNG only for raster images. Subfigures: `subfigure[b]{0.49\linewidth}` with `\centering`, `\hfill` between the two columns and `\\[1.5ex]` between rows, each with its own short `\caption{}`, and the general caption at the end.
+`figure[h!]` environment with `\centering`, `\includegraphics[width=0.95\linewidth]{figuras/file.pdf}` (the `\graphicspath` covers `figuras/` and `graficos/`), `\caption[short title]{full caption + source}` and `\label{fig:...}` (see "Figure and table captions"); do not use `\legend{}`. Prefer vector PDF; PNG only for raster images. Subfigures: `subfigure[b]{0.49\linewidth}` with `\centering`, `\hfill` between the two columns and `\\[1.5ex]` between rows, each with its own short `\caption{}` (no short title: subfigures do not go into the list), and the general caption at the end, in the same `\caption[short]{full + source}` format.
+
+## Figure and table captions (mandatory standard)
+
+Every figure and every table uses `\caption[short title]{full caption}`:
+
+- `[short title]` always present: it is what goes into the List of figures / List of tables. Title only, no final period, no citation and no revision marker (`\novo` etc.).
+- `{full caption}`: the full title, the needed explanation and, **at the end, the source**, inside the caption itself. Do not use `\legend{Fonte: ...}`.
+- Source wording (kept in Portuguese in the document): own figure or table, `Elaborado pelo autor.`; redrawn from another work's data, `Elaborado pelo autor, com base em \citeonline{key}.`; reproduced or adapted, `Adaptado de \citeonline{key}.`. Always a `\citeonline`/`\cite`, never a typed name.
+- Notes that used to go in `\legend` (acronyms, medium, remarks) go in the full caption, after the source.
+- With the short title present, the full caption may contain `\autoref`, `\cite` and `\novo{}` without breaking the list.
+
+```latex
+\caption[Arquitetura dos filmes radiocrômicos EBT2 e EBT3]{Desenho esquemático da diferença entre a arquitetura dos filmes radiocrômicos EBT2 e EBT3. Adaptado de \citeonline{devic2016reference}.}
+```
+
+Note on the standard: for tables, NBR 14724 refers to the IBGE tabular presentation rules, which put the source in the table footer. This standard moves the source into the caption by the author's choice; warn if the committee or the program's library requires the footer.
 
 For scientific figures in matplotlib, this skill can be used together with the `scientific-figures` skill (<https://github.com/juancarlosc504/scientific-figures>), which generates each figure with a reproducible `gera_*.py` script and a checker (`checa_figura.py`). This skill takes care of the LaTeX (environment, caption, label, source); `scientific-figures` takes care of the figure itself. In case of conflict about graphic content, `scientific-figures` prevails. Figures generated in Python (matplotlib) follow this standard, and the generating `.py` is always saved in `figuras/` (e.g. `gera_figura.py`):
 
@@ -120,7 +156,7 @@ They live in `pretextual/listas_pretextuais.tex` (`\begin{siglas}` and `\begin{s
 
 ## Final check
 
-Text justified and without margin overflow; units in the format `$n$~unit` with decimal comma; all cross-references via `\autoref`/`\aref`; tables without `\hline`; figures with `\legend{Fonte: ...}`; citations in `referencias.bib` and with the proper `\cite` or `\citeonline`; new text in `\novo{}`; compilation with no errors and no undefined references or citations.
+Text justified and without margin overflow; units in the format `$n$~unit` with decimal comma; all cross-references via `\autoref`/`\aref`; tables without `\hline`; figures and tables with `\caption[short]{full + source}` and no `\legend`; citations in mixed case (NBR 10520:2023); citations in `referencias.bib` and with the proper `\cite` or `\citeonline`; new text in `\novo{}`; compilation with no errors and no undefined references or citations.
 
 ## Template files
 
